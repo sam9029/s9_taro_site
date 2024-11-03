@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>card_circle</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+
+      .circle-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .card {
+        position: absolute;
+        width: var(--card-width);
+        height: var(--card-height);
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        user-select: none;
+
+        opacity: 0; /* 初始透明 */
+        transform-origin: center; /* 动画起点 */
+        animation: moveToCircle 1s ease forwards; /* 添加动画 */
+        animation-delay: calc(0.05s * var(--i)); /* 让每个卡片有不同的延迟 */
+        background-color: #5e5cfc;
+        filter: hue-rotate(calc(var(--i) * 1deg));
+
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
+      }
+
+      /** 鼠标悬停 & 被选中时 效果 */
+      .card:hover,
+      .card.selected {
+        transform: var(--hover-transform) scale(1.1) !important; /* 上移10px并放大1.1倍 */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+      }
+
+      .card .card_number {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      @keyframes moveToCircle {
+        from {
+          transform: translate(0, 0) rotate(0deg); /* 从中心开始 */
+          opacity: 0; /* 初始不可见 */
+        }
+        to {
+          transform: var(--final-transform); /* 最终位置 */
+          opacity: 1; /* 最终可见 */
+        }
+      }
+
+      .shuffle-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #5e5cfc;
+        color: white;
+        transition: background-color 0.3s;
+      }
+
+      .shuffle-button:hover {
+        background-color: #4a49d2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="circle-container">
+      <!-- 卡片将通过 JavaScript 动态生成 -->
+    </div>
+    <button class="shuffle-button">洗牌</button>
+
+    <script>
+      const container = document.querySelector(".circle-container");
+
+      const totalCards = 78;
+      const cardWidth = 160;
+      const cardHeight = 240;
+
+      let selectedCards = []; // 存储已抽取的卡片
+      const maxSelectedCards = 3; // 最多允许3张卡片保持抽取状态
+
+      const radius = 200; // 圆的半径
+      const hoverDistance = 20; // 悬停时移动的距离
+      const angleStep = 300 / totalCards; // 每个卡片之间的角度间隔 (预留60度，防止卡片重叠)
+
+      const containerCenterX = container.offsetWidth / 2; // 容器的中心X坐标
+      const containerCenterY = container.offsetHeight / 2; // 容器的中心Y坐标
+
+      const cardsData = []; // 用于存储卡片位置数据
+
+      // 动态生成卡片
+      function createCards() {
+        for (let i = 1; i <= totalCards; i++) {
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `<span class='card_number'>${i}</span>`;
+          cardsData.push(card); // 将卡片数据存储到数组中
+
+          // 计算每张卡片的角度
+          const angle = angleStep * i;
+          const cos = (angle * Math.PI) / 180;
+          const sin = (angle * Math.PI) / 180;
+
+          const x = containerCenterX + radius * Math.cos(cos) - cardWidth / 2; // 减去卡片宽度的一半
+          const y = containerCenterY + radius * Math.sin(sin) - cardHeight / 2; // 减去卡片高度的一半
+
+          // 设置卡片的平移和旋转
+          const finalTransform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+          card.style.setProperty("--i", i); // 动画延迟用
+          card.style.setProperty("--final-transform", finalTransform); // 最终位置用
+          card.style.setProperty("--card-width", cardWidth + "px"); // 卡片宽
+          card.style.setProperty("--card-height", cardHeight + "px"); // 卡片高
+
+          container.appendChild(card);
+        }
+      }
+
+      // 洗牌函数
+      function shuffleCards() {
+        
+        const spreadDistance = 100; // 发散的距离
+        const cards = Array.from(container.children);
+        
+        
+        // 让每张卡片发散到随机位置
+        cards.forEach((card, index) => {
+          
+          // // dev-log >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+          console.log(`[Dev_Log][${'shuffleCards'}_]_>>>`,card)
+          
+          const angle = Math.random() * 2 * Math.PI; // 随机角度
+          const randomX = Math.cos(angle) * spreadDistance;
+          const randomY = Math.sin(angle) * spreadDistance;
+          const disperseTransform = `translate(${randomX}px, ${randomY}px)`;
+          card.style.transition = "transform 0.5s ease"; // 设置发散的过渡时间
+          card.style.transform = disperseTransform; // 发散移动
+
+          // 在一段时间后将卡片移回圆圈
+          setTimeout(() => {
+            // 重新计算卡片的最终位置
+            const finalAngle = angleStep * (index + 1);
+            const finalCos = (finalAngle * Math.PI) / 180;
+            const finalSin = (finalAngle * Math.PI) / 180;
+            const x =
+              containerCenterX + radius * Math.cos(finalCos) - cardWidth / 2;
+            const y =
+              containerCenterY + radius * Math.sin(finalSin) - cardHeight / 2;
+            const finalTransform = `translate(${x}px, ${y}px) rotate(${finalAngle}deg)`;
+            card.style.transition = "transform 1s ease"; // 设置回到圆圈的过渡时间
+            card.style.transform = finalTransform; // 移回圆圈
+          }, 500); // 等待发散完成后再执行
+        });
+      }
+
+      // 绑定洗牌按钮的点击事件
+      document
+        .querySelector(".shuffle-button")
+        .addEventListener("click", shuffleCards);
+
+      createCards(); // 创建卡片
+    </script>
+  </body>
+</html>

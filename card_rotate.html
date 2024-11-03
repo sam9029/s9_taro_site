@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card" style="--i: -2">-2</div>
+      <div class="card" style="--i: -1">-1</div>
+      <div class="card" style="--i: 0">0</div>
+      <div class="card" style="--i: 1">1</div>
+      <div class="card" style="--i: 2">2</div>
+    </div>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: #0f0f0f;
+        color: #ccc;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+      }
+
+      .container {
+        position: relative;
+
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container .card {
+        position: absolute;
+
+        width: 240px;
+        height: 320px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #5e5cfc;
+        /* -200deg -150deg ... 0deg 50deg 100deg ... */
+        filter: hue-rotate(calc(var(--i) * 50deg)); /** 颜色渐变 */
+        border: 10px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+
+        color: rgba(0, 0, 0, 0);
+        font-size: 8em;
+        font-weight: 700;
+
+        transition: 0.5s;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .container:hover .card {
+        color: rgba(0, 0, 0, 0.25);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+
+        /* rotate: -20deg -15deg ... 0deg 5deg 10deg ... translate: -480px -360px ... 0 120px 240px ...*/
+        transform: rotate(calc(var(--i) * 10deg))
+          translate(calc(var(--i) * 120px), -50px);
+      }
+
+      .container:active .card {
+        background-color: #333;
+      }
+
+      .container .card:active {
+        background-color: #5e5cfc;
+        translate: calc(var(--i) * 20px) -50px;
+        z-index: 100;
+      }
+
+      @media screen and (max-width: 768px) {
+        .container .card {
+          scale: 0.5;
+        }
+      }
+
+      @media screen and (max-width: 576px) {
+        .container .card {
+          scale: 0.3;
+        }
+      }
+    </style>
+  </body>
+</html>
