@@ -46,7 +46,8 @@
         animation: moveToCircle 1s ease forwards; /* 添加动画 */
         animation-delay: calc(0.05s * var(--i)); /* 让每个卡片有不同的延迟 */
         background-color: #5e5cfc;
-        filter: hue-rotate(calc(var(--i) * 1deg));
+        background-color: #e0e0f8;
+        /* filter: hue-rotate(calc(var(--i) * 1deg)); */
 
         transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
       }
@@ -73,22 +74,6 @@
           transform: var(--final-transform); /* 最终位置 */
           opacity: 1; /* 最终可见 */
         }
-      }
-
-      .shuffle-button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        background-color: #5e5cfc;
-        color: white;
-        transition: background-color 0.3s;
-      }
-
-      .shuffle-button:hover {
-        background-color: #4a49d2;
       }
     </style>
   </head>
@@ -140,51 +125,50 @@
           card.style.setProperty("--card-width", cardWidth + "px"); // 卡片宽
           card.style.setProperty("--card-height", cardHeight + "px"); // 卡片高
 
+          // 计算悬停时卡片向圆外的移动方向
+          const hoverX = hoverDistance * Math.cos((angle * Math.PI) / 180);
+          const hoverY = hoverDistance * Math.sin((angle * Math.PI) / 180);
+          const hoverTransform = `translate(${x + hoverX}px, ${
+            y + hoverY
+          }px) rotate(${angle}deg)`;
+          card.style.setProperty("--hover-transform", hoverTransform); // 设置悬停时的移动方向
+
           container.appendChild(card);
         }
       }
 
-      // 洗牌函数
-      function shuffleCards() {
-        
-        const spreadDistance = 100; // 发散的距离
-        const cards = Array.from(container.children);
-        
-        
-        // 让每张卡片发散到随机位置
-        cards.forEach((card, index) => {
-          
-          // // dev-log >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-          console.log(`[Dev_Log][${'shuffleCards'}_]_>>>`,card)
-          
-          const angle = Math.random() * 2 * Math.PI; // 随机角度
-          const randomX = Math.cos(angle) * spreadDistance;
-          const randomY = Math.sin(angle) * spreadDistance;
-          const disperseTransform = `translate(${randomX}px, ${randomY}px)`;
-          card.style.transition = "transform 0.5s ease"; // 设置发散的过渡时间
-          card.style.transform = disperseTransform; // 发散移动
+      // 使用事件委托在父元素上绑定点击事件
+      container.addEventListener("click", (event) => {
+        /**
+         * closest(".card") 从触发事件的元素开始，向上寻找最接近的匹配指定选择器的祖先元素
+         * 在这个例子中，它会从 event.target 开始，寻找离它最近的带有 .card 类名的祖先元素。
+         * */
+        const clickedCard = event.target.closest(".card");
 
-          // 在一段时间后将卡片移回圆圈
-          setTimeout(() => {
-            // 重新计算卡片的最终位置
-            const finalAngle = angleStep * (index + 1);
-            const finalCos = (finalAngle * Math.PI) / 180;
-            const finalSin = (finalAngle * Math.PI) / 180;
-            const x =
-              containerCenterX + radius * Math.cos(finalCos) - cardWidth / 2;
-            const y =
-              containerCenterY + radius * Math.sin(finalSin) - cardHeight / 2;
-            const finalTransform = `translate(${x}px, ${y}px) rotate(${finalAngle}deg)`;
-            card.style.transition = "transform 1s ease"; // 设置回到圆圈的过渡时间
-            card.style.transform = finalTransform; // 移回圆圈
-          }, 500); // 等待发散完成后再执行
-        });
-      }
+        if (clickedCard) {
+          // 如果该卡片已经抽取，恢复原位
+          if (clickedCard.classList.contains("selected")) {
+            clickedCard.classList.remove("selected");
+            selectedCards = selectedCards.filter((c) => c !== clickedCard); // 从已选卡片中移除
+          } else {
+            // 如果尚未抽取且已有三张卡片，移除最早的一张
+            if (selectedCards.length === maxSelectedCards) {
+              const cardToReset = selectedCards.shift(); // 移除数组中最早的卡片
+              cardToReset.classList.remove("selected");
+            }
 
-      // 绑定洗牌按钮的点击事件
-      document
-        .querySelector(".shuffle-button")
-        .addEventListener("click", shuffleCards);
+            // 抽取当前卡片
+            clickedCard.classList.add("selected");
+            selectedCards.push(clickedCard); // 添加到已选卡片数组
+          }
+        }
+
+        if (selectedCards.length == maxSelectedCards) {
+          showConfirm(true);
+        } else {
+          showConfirm(false);
+        }
+      });
 
       createCards(); // 创建卡片
     </script>
