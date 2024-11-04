@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+
     <title>Document</title>
 
     <link rel="stylesheet" href="./styles/base.css" />
@@ -161,6 +163,15 @@
           确认
         </button>
 
+        <!-- 重新发牌 -->
+        <button
+          id="confirmBtn"
+          onclick="resetCards()"
+          class="absolute bottom-10 right-10 px-16 py-4 rounded-full border border-zinc-200 bg-primary text-dark-primary dark:bg-dark-primary dark:text-primary"
+        >
+          重新发牌
+        </button>
+
         <div
           class="selected-panel__wrapper hidden max-w-screen-xl min-w-[814px] absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-lg rounded-md bg-white"
         >
@@ -168,7 +179,9 @@
             class="flex justify-between items-center border-b border-b-zinc-200 px-8 py-4"
           >
             <h3 class="text-3xl font-bold">您选择了</h3>
-            <p class="cursor-pointer" onclick="closeSelectedCardPanel()">返回</p>
+            <p class="cursor-pointer" onclick="closeSelectedCardPanel()">
+              返回
+            </p>
           </div>
           <div class="flex justify-between items-center gap-[20px] p-8">
             <div

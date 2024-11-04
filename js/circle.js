@@ -2,6 +2,7 @@ const totalCards = 78;
 const cardWidth = 240;
 const cardHeight = 160;
 
+let cardsData = []; // 用于存储卡片位置数据
 let selectedCards = []; // 存储已抽取的卡片
 const maxSelectedCards = 3; // 最多允许3张卡片保持抽取状态
 
@@ -45,6 +46,7 @@ function drawerCardCircle() {
     card.style.setProperty("--hover-transform", hoverTransform); // 设置悬停时的移动方向
 
     container.appendChild(card);
+    cardsData.push(card);
   }
 
   // 使用事件委托在父元素上绑定点击事件
@@ -77,6 +79,39 @@ function drawerCardCircle() {
       showConfirm(true);
     } else {
       showConfirm(false);
+    }
+  });
+}
+
+function clearCardsData() {
+  const container = document.querySelector(".circle__container");
+  container.innerHTML = null;
+  cardsData = [];
+}
+
+// 逆向动画：卡片返回到中心
+function resetCards() {
+  // 定义动画结束后的处理函数
+  let lastCard = null;
+  const handleAnimationEnd = () => {
+    // 清除之前的cardEl--DOM
+    clearCardsData();
+    // 重新创建卡片
+    drawerCardCircle();
+
+    // 动画完成后移除监听器
+    lastCard.removeEventListener("animationend", handleAnimationEnd);
+  };
+
+  cardsData.forEach((card, index) => {
+    card.style.animation = "moveToCenter 1s backwards";
+    card.style.animationDelay = `${index * 0.01}s`; // 延迟效果，逐个执行
+
+    // 追加动画执行监听器
+    if (index + 1 === cardsData.length) {
+      lastCard = card;
+      // 添加动画结束事件监听器
+      card.addEventListener("animationend", handleAnimationEnd);
     }
   });
 }
@@ -128,7 +163,7 @@ function showSelectedCardPanel() {
   document.querySelector(".selected-panel__wrapper").classList.add("!block");
 }
 
-function closeSelectedCardPanel(){
+function closeSelectedCardPanel() {
   document.querySelector(".selected-panel__wrapper").classList.remove("!block");
 }
 

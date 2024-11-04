@@ -62,3 +62,14 @@
     opacity: 1; /* 最终可见 */
   }
 }
+
+@keyframes moveToCenter {
+  from {
+    transform: var(--final-transform); /* 最终位置 */
+    opacity: 1;
+  }
+  to {
+    transform: translate(80vw, 0) rotate(0deg); /* 从中心开始 */
+    opacity: 0;
+  }
+}
