@@ -101,6 +101,7 @@
 
     <script>
       const container = document.querySelector(".circle-container");
+      let containerHasClickEvent = false; // 是否已经绑定click事件
 
       const totalCards = 78;
       const cardWidth = 160;
@@ -153,35 +154,40 @@
       }
 
       // 使用事件委托在父元素上绑定点击事件
-      container.addEventListener("click", (event) => {
-        /**
-         * closest(".card") 从触发事件的元素开始，向上寻找最接近的匹配指定选择器的祖先元素
-         * 在这个例子中，它会从 event.target 开始，寻找离它最近的带有 .card 类名的祖先元素。
-         * */
-        const clickedCard = event.target.closest(".card");
+      if (!containerHasClickEvent) {
+        container.addEventListener("click", (event) => {
+          /**
+           * closest(".card") 从触发事件的元素开始，向上寻找最接近的匹配指定选择器的祖先元素
+           * 在这个例子中，它会从 event.target 开始，寻找离它最近的带有 .card 类名的祖先元素。
+           * */
+          const clickedCard = event.target.closest(".card");
 
-        if (clickedCard) {
-          // 如果该卡片已经抽取，恢复原位
-          if (clickedCard.classList.contains("selected")) {
-            clickedCard.classList.remove("selected");
-            selectedCards = selectedCards.filter((c) => c !== clickedCard); // 从已选卡片中移除
-          } else {
-            // 如果尚未抽取且已有三张卡片，移除最早的一张
-            if (selectedCards.length === maxSelectedCards) {
-              const cardToReset = selectedCards.shift(); // 移除数组中最早的卡片
-              cardToReset.classList.remove("selected");
+          if (clickedCard) {
+            // 如果该卡片已经抽取，恢复原位
+            if (clickedCard.classList.contains("selected")) {
+              clickedCard.classList.remove("selected");
+              selectedCards = selectedCards.filter((c) => c !== clickedCard); // 从已选卡片中移除
+            } else {
+              // 如果尚未抽取且已有三张卡片，移除最早的一张
+              if (selectedCards.length === maxSelectedCards) {
+                const cardToReset = selectedCards.shift(); // 移除数组中最早的卡片
+                cardToReset.classList.remove("selected");
+              }
+
+              // 抽取当前卡片
+              clickedCard.classList.add("selected");
+              selectedCards.push(clickedCard); // 添加到已选卡片数组
             }
-
-            // 抽取当前卡片
-            clickedCard.classList.add("selected");
-            selectedCards.push(clickedCard); // 添加到已选卡片数组
           }
-        }
-      });
+
+          containerHasClickEvent = true; // 只绑定一次点击事件
+        });
+      }
 
       function clearCardsData() {
         container.innerHTML = null;
         cardsData = [];
+        selectedCards = [];
       }
 
       createCards(); // 创建卡片
@@ -191,7 +197,6 @@
       const resetButton = document.getElementById("reset-button");
 
       function resetCards() {
-
         // 定义动画结束后的处理函数
         let lastCard = null;
         const handleAnimationEnd = () => {

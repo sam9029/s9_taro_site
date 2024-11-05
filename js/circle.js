@@ -2,6 +2,8 @@ const totalCards = 78;
 const cardWidth = 240;
 const cardHeight = 160;
 
+let container = null;
+let containerHasClickEvent = false; // 是否已经绑定click事件
 let cardsData = []; // 用于存储卡片位置数据
 let selectedCards = []; // 存储已抽取的卡片
 const maxSelectedCards = 3; // 最多允许3张卡片保持抽取状态
@@ -11,7 +13,7 @@ const hoverDistance = 20; // 悬停时移动的距离
 const angleStep = 300 / totalCards; // 每个卡片之间的角度间隔 (预留60度，防止卡片重叠)
 
 function drawerCardCircle() {
-  const container = document.querySelector(".circle__container");
+  container = document.querySelector(".circle__container"); // 获取容器元素
   const containerCenterX = container.offsetWidth / 2; // 容器的中心X坐标
   //   const containerCenterY = container.offsetHeight / 2; // 容器的中心Y坐标
   const containerCenterY = container.offsetHeight / 2 + 20; // 容器的中心Y坐标下移
@@ -32,8 +34,8 @@ function drawerCardCircle() {
 
     // 设置卡片的平移和旋转
     const finalTransform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
-    card.style.setProperty("--i", i); // 动画延迟用
     card.style.setProperty("--final-transform", finalTransform); // 最终位置用
+    card.style.setProperty("--i", i); // 动画延迟用
     card.style.setProperty("--card-width", cardWidth + "px"); // 卡片宽
     card.style.setProperty("--card-height", cardHeight + "px"); // 卡片高
 
@@ -50,42 +52,51 @@ function drawerCardCircle() {
   }
 
   // 使用事件委托在父元素上绑定点击事件
-  container.addEventListener("click", (event) => {
-    /**
-     * closest(".card") 从触发事件的元素开始，向上寻找最接近的匹配指定选择器的祖先元素
-     * 在这个例子中，它会从 event.target 开始，寻找离它最近的带有 .card 类名的祖先元素。
-     * */
-    const clickedCard = event.target.closest(".card");
+  handleCardClick();
+}
 
-    if (clickedCard) {
-      // 如果该卡片已经抽取，恢复原位
-      if (clickedCard.classList.contains("selected")) {
-        clickedCard.classList.remove("selected");
-        selectedCards = selectedCards.filter((c) => c !== clickedCard); // 从已选卡片中移除
-      } else {
-        // 如果尚未抽取且已有三张卡片，移除最早的一张
-        if (selectedCards.length === maxSelectedCards) {
-          const cardToReset = selectedCards.shift(); // 移除数组中最早的卡片
-          cardToReset.classList.remove("selected");
+function handleCardClick() {
+  // 使用事件委托在父元素上绑定点击事件
+  if (!containerHasClickEvent) {
+    container.addEventListener("click", (event) => {
+      /**
+       * closest(".card") 从触发事件的元素开始，向上寻找最接近的匹配指定选择器的祖先元素
+       * 在这个例子中，它会从 event.target 开始，寻找离它最近的带有 .card 类名的祖先元素。
+       * */
+      const clickedCard = event.target.closest(".card");
+
+      if (clickedCard) {
+        // 如果该卡片已经抽取，恢复原位
+        if (clickedCard.classList.contains("selected")) {
+          clickedCard.classList.remove("selected");
+          selectedCards = selectedCards.filter((c) => c !== clickedCard); // 从已选卡片中移除
+        } else {
+          // 如果尚未抽取且已有三张卡片，移除最早的一张
+          if (selectedCards.length === maxSelectedCards) {
+            const cardToReset = selectedCards.shift(); // 移除数组中最早的卡片
+            cardToReset.classList.remove("selected");
+          }
+
+          // 抽取当前卡片
+          clickedCard.classList.add("selected");
+          selectedCards.push(clickedCard); // 添加到已选卡片数组
         }
-
-        // 抽取当前卡片
-        clickedCard.classList.add("selected");
-        selectedCards.push(clickedCard); // 添加到已选卡片数组
       }
-    }
 
-    if (selectedCards.length == maxSelectedCards) {
-      showConfirm(true);
-    } else {
-      showConfirm(false);
-    }
-  });
+      if (selectedCards.length == maxSelectedCards) {
+        showConfirm(true);
+      } else {
+        showConfirm(false);
+      }
+
+      containerHasClickEvent = true;
+    });
+  }
 }
 
 function clearCardsData() {
-  const container = document.querySelector(".circle__container");
   container.innerHTML = null;
+  selectedCards = [];
   cardsData = [];
 }
 
@@ -184,7 +195,7 @@ function randomReadTaroCard() {
 
   const cardKey = TARO_KEY_MAPPER[randomIndex];
   const position = getRandomPosition();
-  const taroCardInfo =  TARO_MAPPER[cardKey];
+  const taroCardInfo = TARO_MAPPER[cardKey];
 
   // /**
   //  * 预加载图片
