@@ -145,19 +145,25 @@ function showSelectedCardPanel() {
   );
 
   panels.map((item) => {
-    const { name, description, cover_url, position } = randomReadTaroCard();
+    const { name, description, reversed_description, cover_url, position } =
+      randomReadTaroCard();
     const positionLabel = TARO_POSITION[position];
 
     const coverEl = item.querySelector(".card-cover");
+    let descriptionLabel = description;
     coverEl.style.maxWidth = "unset";
     coverEl.src = cover_url;
-    if (position === "reversedPosition") {
+
+    /** 正逆位判断 */
+    if (position === "reversed") {
       coverEl.classList.add("rotate-180");
+      descriptionLabel = reversed_description;
     } else {
       coverEl.classList.remove("rotate-180");
     }
+
     item.querySelector(".card-name").innerText = `${name} (${positionLabel})`;
-    item.querySelector(".card-description").innerText = description;
+    item.querySelector(".card-description").innerText = descriptionLabel;
   });
 
   document.querySelector(".selected-panel__wrapper").classList.add("!block");
@@ -178,9 +184,19 @@ function randomReadTaroCard() {
 
   const cardKey = TARO_KEY_MAPPER[randomIndex];
   const position = getRandomPosition();
+  const taroCardInfo =  TARO_MAPPER[cardKey];
+
+  // /**
+  //  * 预加载图片
+  //  * 使用 new Image() 访问指定链接的图片时，浏览器会开始下载并缓存该图片。
+  //  * 随后，当你在页面上通过 <img src> 引用相同的图片时，
+  //  * 浏览器会直接从缓存中加载它，而不需要重新发起网络请求，显著减少加载时间
+  //  */
+  // const imgEl = new Image();
+  // imgEl.src = taroCardInfo.cover_url;
 
   return {
-    ...TARO_MAPPER[cardKey],
+    ...taroCardInfo,
     position,
   };
 }
