@@ -21,6 +21,7 @@ https://sam9029.github.io/s9_taro_site/
 - 🆗 重新洗牌
 - 🆗 Github部署
 - 🆗 卡片逆位描述信息收集 
+-  （Break Change）使用Vue3框架重新编写代码
 - 卡片博物馆
 - 顶部不做导航，做成微软格式的 AI 问答框&文字动态问候框
 - 点击卡片时就 new Image 请求一次卡片地址，实现图片链接本地缓存

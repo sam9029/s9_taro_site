@@ -1,0 +1,33 @@
+@import url('./base.scss');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: normal;
+}
+
+body {
+}
+
+#app {
+}
+
+/** 全局滚动条设置 */
+*::-webkit-scrollbar {
+  width: 5px; /*滚动条宽度*/
+  height: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 3px; /*滚动条圆角*/
+  -webkit-border-radius: 3px; /*兼容圆角属性*/
+  background-color: #c3c3c3; /*滚动条颜色*/
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent; /*滚动条的背景颜色*/
+}
+

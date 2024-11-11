@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/circle.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//at.alicdn.com/t/c/font_4732493_sgbigx7v6vd.js"></script>
+    <script src="./js/circle.js"></script>
+    <script src="./js/message.js"></script>
+    <script src="./enum/taro_enum.js"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#041b47",
+              "dark-primary": "#f2ddcc",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /** icon */
+      .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+      }
+    </style>
+
+    <style>
+      /** 全局滚动条设置 */
+      *::-webkit-scrollbar {
+        width: 5px; /*滚动条宽度*/
+        height: 5px;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        border-radius: 3px; /*滚动条圆角*/
+        -webkit-border-radius: 3px; /*兼容圆角属性*/
+        background-color: #c3c3c3; /*滚动条颜色*/
+      }
+
+      *::-webkit-scrollbar-track {
+        background-color: transparent; /*滚动条的背景颜色*/
+      }
+    </style>
+  </head>
+  <body class="fixed">
+    <div id="app">
+      <!-- 背景板 -->
+      <div class="fixed inset-0 z-[-1]">
+        <div class="bg-mask absolute size-full"></div>
+      </div>
+
+      <!-- 头部 -->
+      <header
+        class="header__wrapper z-20 max-w-screen-xl w-full fixed left-[50%] translate-x-[-50%] p-4 mt-8 mx-auto flex justify-between items-center border-b border-b-zinc-200 rounded-full shadow-md"
+      >
+        <div></div>
+        <div class="flex justify-between">
+          <div class="group/theme px-4 cursor-pointer relative">
+            <svg class="icon w-8 h-8" aria-hidden="true">
+              <use xlink:href="#icon-taiyang"></use>
+            </svg>
+
+            <!--  -->
+            <div
+              class="group-hover/theme:flex hidden absolute top-[100%] right-0 p-2 flex-col justify-start items-center cursor-pointer rounded bg-zinc-500/60 dark:bg-zinc-900 duration-500 delay-500"
+            >
+              <div
+                class="w-full rounded-full p-2 hover:bg-zinc-300"
+                onclick="toggleTheme()"
+              >
+                <svg class="icon w-8 h-8" aria-hidden="true">
+                  <use xlink:href="#icon-taiyang"></use>
+                </svg>
+                <span>白昼</span>
+              </div>
+
+              <div
+                class="w-full rounded-full p-2 hover:bg-zinc-300"
+                onclick="toggleTheme()"
+              >
+                <svg class="icon w-8 h-8" aria-hidden="true">
+                  <use xlink:href="#icon-yueliang"></use>
+                </svg>
+                <span>极夜</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="group/local px-4 cursor-pointer relative">
+            <div>local</div>
+            <div
+              class="group-hover/local:block hidden duration-500 absolute top-[100%] right-0"
+            >
+              <button class="">简体中文</button>
+              <button class="">English</button>
+            </div>
+          </div> -->
+        </div>
+      </header>
+
+      <!-- 切换按钮 -->
+      <!-- <aside class="z-20 fixed top-1/2 right-0 p-4 cursor-pointer">
+        <div class="home__wrapper" onclick="toggleView('home')">抽取卡牌</div>
+        <div class="museum__wrapper" onclick="toggleView('museum')">博物馆</div>
+      </aside> -->
+    </div>
+
+    <!-- 抽取卡牌主体 -->
+    <main
+      id="one"
+      class="absolute top-0 left-0 z-10 w-full h-full p-4 overflow-x-hidden overflow-y-auto flex justify-center items-center duration-500"
+    >
+      <div class="intro__wrapper max-w-screen-xl">
+        <h1 class="my-4 text-6xl font-bold">
+          神秘之镜：<span class="">塔罗牌</span>
+        </h1>
+        <p class="my-4 text-2xl">
+          78张艺术之卡，蕴含古老的智慧与象征，它们不仅是占卜的工具，更是心灵的导航，引领我们在人生旅途中探寻答案，启迪内在的洞见
+        </p>
+        <div class="my-4 text-2xl">
+          <button
+            onclick="handleShowCard()"
+            class="py-4 px-10 rounded-full border border-zinc-200 hover:bg-primary hover:text-dark-primary dark:hover:bg-dark-primary dark:hover:text-primary"
+          >
+            抽取卡牌
+          </button>
+          <button
+            onclick="handleShowFireworks()"
+            class="py-4 px-10 rounded-full border border-zinc-200 hover:bg-primary hover:text-dark-primary dark:hover:bg-dark-primary dark:hover:text-primary"
+          >
+            🎉🎉🎉
+          </button>
+        </div>
+      </div>
+      <div class="card__wrapper w-full h-full max-w-screen-xl hidden relative">
+        <!-- 卡牌渲染 -->
+        <div class="circle__container">
+          <!-- 卡片将通过 JavaScript 动态生成 -->
+        </div>
+
+        <!-- 确认 -->
+        <button
+          id="confirmBtn"
+          onclick="handleConfirm()"
+          class="hidden absolute bottom-10 left-1/2 translate-x-[-50%] px-16 py-4 rounded-full border border-zinc-200 bg-primary text-dark-primary dark:bg-dark-primary dark:text-primary"
+        >
+          确认
+        </button>
+
+        <!-- 重新发牌 -->
+        <button
+          id="confirmBtn"
+          onclick="resetCards()"
+          class="absolute bottom-10 right-10 px-16 py-4 rounded-full border border-zinc-200 bg-primary text-dark-primary dark:bg-dark-primary dark:text-primary"
+        >
+          重新发牌
+        </button>
+
+        <!-- 卡牌选中面板 -->
+        <div
+          class="selected-panel__wrapper hidden max-w-screen-xl min-w-[814px] absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] shadow-lg rounded-md bg-white"
+        >
+          <div
+            class="flex justify-between items-center border-b border-b-zinc-200 px-8 py-4"
+          >
+            <h3 class="text-3xl font-bold">您选择了</h3>
+            <p class="cursor-pointer" onclick="closeSelectedCardPanel()">
+              返回
+            </p>
+          </div>
+          <div class="flex justify-between items-center gap-[20px] p-8">
+            <div
+              class="selected-card__wrapper flex flex-col justify-center items-center duration-500"
+            >
+              <div class="block p-4 bg-zinc-100/60 shadow-md rounded-md">
+                <img class="w-[180px] h-[320px] card-cover" src="" alt="" />
+              </div>
+              <div class="card-name my-2"></div>
+              <div class="card-description my-2"></div>
+            </div>
+            <div
+              class="selected-card__wrapper flex flex-col justify-center items-center duration-500"
+            >
+              <div class="block p-4 bg-zinc-100/60 shadow-md rounded-md">
+                <img class="w-[180px] h-[320px] card-cover" src="" alt="" />
+              </div>
+              <div class="card-name my-2"></div>
+              <div class="card-description my-2"></div>
+            </div>
+            <div
+              class="selected-card__wrapper flex flex-col justify-center items-center duration-500"
+            >
+              <div class="block p-4 bg-zinc-100/60 shadow-md rounded-md">
+                <img class="w-[180px] h-[320px] card-cover" src="" alt="" />
+              </div>
+              <div class="card-name my-2"></div>
+              <div class="card-description my-2"></div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 博物馆主体 -->
+    <main
+      id="two"
+      class="absolute top-0 left-0 z-10 w-full h-full overflow-x-hidden overflow-y-auto flex justify-center items-center duration-500 translate-y-[100%]"
+    >
+      <section>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+        <h2 class="text-3xl font-bold underline">博物馆主体</h2>
+      </section>
+    </main>
+  </body>
+  <script>
+    // 切换主题函数
+    function toggleTheme() {
+      // 获取 body 元素
+      var body = document.body;
+
+      // 检查 body 是否有 'dark' 类
+      if (body.classList.contains("dark")) {
+        // 如果有 'dark' 类，则移除该类，添加 'light' 类
+        body.classList.remove("dark");
+        body.classList.add("light");
+      } else {
+        // 如果没有 'dark' 类，则添加 'dark' 类，移除 'light' 类
+        body.classList.remove("light");
+        body.classList.add("dark");
+      }
+    }
+
+    function toggleView(_view = "home") {
+      if (_view === "home") {
+        document.querySelector("#one").classList.remove("translate-y-[-100%]");
+        document.querySelector("#one").classList.add("translate-y-0");
+        document.querySelector("#two").classList.add("translate-y-[100%]");
+      }
+
+      if (_view === "museum") {
+        document.querySelector("#one").classList.remove("translate-y-0");
+        document.querySelector("#one").classList.add("translate-y-[-100%]");
+        document.querySelector("#two").classList.remove("translate-y-[100%]");
+      }
+    }
+
+    function handleShowCard() {
+      const intro__wrapper = document.querySelector(".intro__wrapper");
+      const card__wrapper = document.querySelector(".card__wrapper");
+
+      intro__wrapper.style.display = "none";
+      card__wrapper.style.display = "block";
+
+      setTimeout(() => {
+        drawerCardCircle();
+      });
+    }
+
+    function handleShowFireworks() {}
+  </script>
+  <style>
+    /** 背景板变化 */
+    .bg-mask {
+      transition: background-image 0.5s ease-in-out;
+    }
+    .bg-mask::before,
+    .bg-mask::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 1;
+    }
+    .bg-mask::before {
+      background: linear-gradient(180deg, #f8f4f2 50%, #fdedde);
+      opacity: 1;
+    }
+    .bg-mask::after {
+      background: linear-gradient(180deg, #121622 50%, #101524);
+      opacity: 0;
+    }
+    .dark .bg-mask::before {
+      opacity: 0;
+    }
+    .dark .bg-mask::after {
+      opacity: 1;
+    }
+    .inset-0 {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    .fixed {
+      position: fixed;
+    }
+    .size-full {
+      width: 100%;
+      height: 100%;
+    }
+    .absolute {
+      position: absolute;
+    }
+
+    /** header__wrapper */
+    .header__wrapper {
+      background-image: radial-gradient(transparent 1px, white 1px);
+      background-size: 4px 4px;
+      backdrop-filter: saturate(100%) blur(50px);
+    }
+  </style>
+</html>
