@@ -1,35 +1,29 @@
 <template>
   <!-- 头部 -->
   <header
-    class="nav__wrapper z-20 max-w-screen-xl w-[80%] fixed left-[50%] translate-x-[-50%] p-4 mt-8 mx-auto flex justify-between items-center border-b border-b-zinc-200 rounded-full shadow-md"
+    class="nav__wrapper z-20 max-w-screen-xl w-[80%] fixed left-[50%] translate-x-[-50%] px-4 py-2 mt-6 mx-auto flex justify-between items-center border-b border-b-zinc-200 rounded-full shadow-md"
   >
     <div></div>
     <div class="flex justify-between">
       <div class="group/theme px-4 cursor-pointer relative">
-        <svg class="icon w-8 h-8" aria-hidden="true">
-          <use xlink:href="#icon-taiyang"></use>
-        </svg>
+        <sn-icon name="icon-taiyang" />
 
         <div
-          class="group-hover/theme:flex hidden min-w-[100px] absolute top-[100%] right-0 p-2 flex-col justify-start items-center cursor-pointer rounded bg-zinc-500/60 dark:bg-zinc-900 duration-500 delay-500"
+          class="group-hover/theme:flex hidden min-w-[100px] absolute top-[100%] right-0 p-2 flex-col justify-start items-center cursor-pointer rounded bg-slate-50 dark:bg-zinc-900 duration-500 delay-500"
         >
           <div
-            class="w-full rounded-md p-2 hover:bg-zinc-300 flex justify-center items-center"
+            class="w-full rounded-md p-2 hover:bg-zinc-300 flex gap-2 justify-center items-center"
             onclick="toggleTheme()"
           >
-            <svg class="icon mr-2" aria-hidden="true">
-              <use xlink:href="#icon-taiyang"></use>
-            </svg>
+            <sn-icon name="icon-taiyang" />
             <div class="text-nowrap">白昼</div>
           </div>
 
           <div
-            class="w-full rounded-md p-2 hover:bg-zinc-300 flex justify-center items-center"
+            class="w-full rounded-md p-2 hover:bg-zinc-300 flex gap-2 justify-center items-center"
             onclick="toggleTheme()"
           >
-            <svg class="icon mr-2" aria-hidden="true">
-              <use xlink:href="#icon-yueliang"></use>
-            </svg>
+            <sn-icon name="icon-yueliang" />
             <div class="text-nowrap">极夜</div>
           </div>
         </div>

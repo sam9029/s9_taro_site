@@ -13,7 +13,7 @@ export default {
       componentName = componentName.toLowerCase() // 组件名称小写
 
       // 通过 defineAsyncComponent 异步导入指定路径下的组件
-      app.component(componentName, defineAsyncComponent(value))
+      app.component(componentName, defineAsyncComponent(value as any))
     }
   },
 }

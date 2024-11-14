@@ -1,11 +1,25 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
+  // "files": [],
+  // "references": [
+  //   {
+  //     "path": "./tsconfig.node.json"
+  //   },
+  //   {
+  //     "path": "./tsconfig.app.json"
+  //   }
+  // ],
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "exclude": ["node_modules", "src/**/*", "src/**/*.vue"],
+  // "include": ["env.d.ts"],
+  "allowJS": true,
+  "compilerOptions": {
+    "strict": false, // 启用所有严格类型检查选项
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
     }
-  ]
+  }
 }

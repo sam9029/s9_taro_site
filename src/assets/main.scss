@@ -31,3 +31,8 @@ body {
   background-color: transparent; /*滚动条的背景颜色*/
 }
 
+.base-bg-backdrop {
+  background-image: radial-gradient(transparent 1px, #f8fafc 1px);
+  background-size: 3px 3px;
+  backdrop-filter: saturate(100%) blur(50px);
+}
