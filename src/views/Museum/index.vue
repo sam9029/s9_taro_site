@@ -1,6 +1,6 @@
 <template>
   <div
-    class="museum__wrapper w-full h-full flex justify-center items-start pt-[100px] overflow-x-hidden overflow-y-auto"
+    class="museum__wrapper w-full h-full flex justify-center items-start pt-[120px] overflow-x-hidden overflow-y-auto"
   >
     <div class="w-full max-w-screen-xl py-2 px-4 md:px-6 relative">
       <!-- /** 类型 */ -->
@@ -13,8 +13,8 @@
           :key="item.prop"
           @click="cur_type = item.prop"
         >
-          <!-- {{ index }} -->
-          {{ item.label }} ({{ item.amount }})
+          {{ index }}
+          <!-- {{ item.label }} ({{ item.amount }}) -->
         </a>
       </div>
 
@@ -28,13 +28,13 @@
             <img
               @click="openCardDetail(key, $event)"
               class="w-[180px] h-[320px] rounded-md"
-              :src="value.cover_url"
+              :src=" 'no' || value.cover_url"
               alt=""
             />
           </div>
-          <div v-if="cur_type === 'UPPER_ARCANA'" class="font-bold">
+          <!-- <div v-if="cur_type === 'UPPER_ARCANA'" class="font-bold">
             {{ value.name }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

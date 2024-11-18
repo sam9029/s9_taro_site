@@ -1,7 +1,7 @@
 <template>
   <!-- 头部 -->
   <aside
-    class="float__wrapper base-bg-backdrop z-20 fixed right-2 top-1/2 translate-y-[-50%] p-2 rounded-xl shadow-md cursor-pointer bg-zinc-500/60 dark:bg-zinc-900 duration-500 delay-500"
+    class="float__wrapper z-20 fixed right-2 top-1/2 translate-y-[-50%] p-2 rounded-xl shadow-md cursor-pointer"
   >
     <div class="relative">
       <div
@@ -9,10 +9,10 @@
         :class="[isHome ? 'top-0' : 'top-1/2']"
       ></div>
       <div class="font-bold px-2 py-4" @click="toggleView('/')">
-        <sn-icon name="icon-shouye" />
+        <ui-icon name="icon-shouye" />
       </div>
       <div class="font-bold px-2 py-4">
-        <sn-icon name="icon-bowuguan" @click="toggleView('/museum')" />
+        <ui-icon name="icon-bowuguan" @click="toggleView('/museum')" />
       </div>
     </div>
   </aside>
@@ -35,6 +35,5 @@ function toggleView(_path) {
 
 <style lang="scss" scoped>
 .float__wrapper {
-  
 }
 </style>

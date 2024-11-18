@@ -1,5 +1,5 @@
 <template>
-  <svg class="icon sn-icon__wrapper" aria-hidden="true">
+  <svg class="icon ui-icon__wrapper" aria-hidden="true">
     <use :href="icon"></use>
   </svg>
 </template>
@@ -42,6 +42,6 @@ watchEffect(() => {
   overflow: hidden;
 }
 
-.sn-icon__wrapper {
+.ui-icon__wrapper {
 }
 </style>

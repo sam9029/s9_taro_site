@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Starry Sky Background</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .starry-sky {
+        position: relative;
+        height: 100vh;
+        width: 100vw;
+        background-color: #001f3f; /* 深蓝色背景 */
+      }
+
+      /* 四角星 */
+      .star {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2px;
+        height: 20px;
+        background-color: yellow;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      /* 使用伪元素绘制四角星 */
+      .star::before,
+      .star::after {
+        content: '';
+        position: absolute;
+        background-color: yellow;
+      }
+
+      .star::before {
+        width: 2px;
+        height: 20px;
+        transform: rotate(90deg);
+      }
+
+      .star::after {
+        width: 20px;
+        height: 2px;
+        transform: rotate(45deg);
+      }
+
+      /* 使用 box-shadow 分布星星 */
+      .starry-sky::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2px;
+        height: 20px;
+        background-color: yellow;
+        transform: translate(-50%, -50%) rotate(45deg);
+        box-shadow:
+          100px 200px yellow,
+          -150px 250px yellow,
+          200px 300px yellow,
+          -250px -100px yellow,
+          350px 150px yellow,
+          400px -200px yellow,
+          -450px 200px yellow,
+          -500px -400px yellow,
+          550px 250px yellow,
+          600px -300px yellow;
+      }
+
+      /* 使用伪元素生成小星星 */
+      .starry-sky::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2px;
+        height: 10px;
+        background-color: white;
+        transform: translate(-50%, -50%) rotate(45deg);
+        box-shadow:
+          120px 180px white,
+          -100px 220px white,
+          180px 250px white,
+          -280px -150px white,
+          310px 120px white,
+          350px -180px white,
+          -400px 180px white,
+          -470px -390px white,
+          500px 220px white,
+          550px -280px white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div class="box">
+      <span class="box1"></span>
+      <span class="box2"></span>
+      <span class="box3"></span>
+      <span class="box4"></span>
+    </div>
+    <style>
+      body {
+        /* background-color: black; */
+      }
+      .box {
+        width: 50px;
+        height: 50px;
+        border: 1px solid yellow;
+        margin: auto;
+        position: relative;
+        background-color: yellow;
+      }
+      .box1 {
+        position: absolute;
+        left: -1px;
+        top: -1px;
+        width: 25px;
+        height: 25px;
+        border-right: 1px solid yellow;
+        border-bottom: 1px solid yellow;
+        border-radius: 0px 0px 100% 0px;
+        background-color: black;
+        display: inline-block;
+      }
+      .box2 {
+        position: absolute;
+        left: -1px;
+        top: 25px;
+        width: 25px;
+        height: 25px;
+        border-top: 1px solid yellow;
+        border-right: 1px solid yellow;
+        /* border: 1px solid red; */
+        border-radius: 0px 100% 0px 0px;
+        background-color: black;
+        display: inline-block;
+        float: left;
+      }
+      .box3 {
+        position: absolute;
+        right: -1px;
+        top: -1px;
+        width: 25px;
+        height: 25px;
+        border-left: 1px solid yellow;
+        border-bottom: 1px solid yellow;
+        /* border: 1px solid red; */
+        border-radius: 0px 0px 0px 100%;
+        background-color: black;
+        display: inline-block;
+      }
+      .box4 {
+        position: absolute;
+        right: -1px;
+        top: 25px;
+        width: 25px;
+        height: 25px;
+        border-top: 1px solid yellow;
+        border-left: 1px solid yellow;
+        /* border: 1px solid red; */
+        border-radius: 100% 0px 0px 0px;
+        background-color: black;
+        display: inline-block;
+      }
+    </style> -->
+
+    <div id="star-five"></div>
+    <style>
+      body {
+        padding: 50px;
+      }
+      #star-five {
+        width: 0;
+        height: 0;
+        color: red;
+        margin: 50px 0;
+        position: relative;
+        display: block;
+        border-left: 100px solid transparent;
+        border-right: 100px solid transparent;
+        border-bottom: 70px solid red;
+        -moz-transfrom: rotate(35deg);
+        -webkit-transform: rotate(35deg);
+        -ms-transform: rotate(35deg);
+        -o-transform: rotate(35deg);
+      }
+
+      #star-five:before {
+        width: 0;
+        height: 0;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 80px solid red;
+        position: absolute;
+        top: -45px;
+        left: -65px;
+        color: white;
+        display: block;
+        content: '';
+        -moz-transform: rotate(-35deg);
+        -webkit-transform: rotate(-35deg);
+        -ms-transform: rotate(-35deg);
+        -o-transform: rotate(-35deg);
+      }
+      #star-five:after {
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        color: red;
+        top: 3px;
+        left: -105px;
+        border-left: 100px solid transparent;
+        border-right: 100px solid transparent;
+        border-bottom: 70px solid red;
+        content: '';
+        -moz-transform: rotate(-70deg);
+        -webkit-transform: rotate(-70deg);
+        -ms-transform: rotate(-70deg);
+        -o-transform: rotate(-70deg);
+      }
+    </style>
+
+    <!-- <div class="star"></div>
+
+    <style>
+      /* 四角星 */
+      .star {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        background-color: yellow;
+        transform: rotate(45deg); /* 旋转45度变成菱形 */
+      }
+
+      /* 使用伪元素创建十字交叉 */
+      .star::before,
+      .star::after {
+        content: '';
+        position: absolute;
+        background-color: yellow;
+      }
+
+      .star::before {
+        width: 50px;
+        height: 50px;
+        top: 0;
+        left: 0;
+        transform: rotate(90deg); /* 旋转90度，形成交叉 */
+      }
+
+      .star::after {
+        width: 50px;
+        height: 50px;
+        top: 0;
+        left: 0;
+        transform: rotate(45deg); /* 与主元素成45度角 */
+      }
+    </style> -->
+  </body>
+</html>

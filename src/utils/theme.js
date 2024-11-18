@@ -1,5 +1,5 @@
 import { watch } from 'vue'
-import { THEME_LIGHT, THEME_DARK, THEME_SYSTEM } from '@/constants'
+import { THEME_LIST, THEME_SYSTEM } from '@/constants'
 import { useAppStoreWithout } from '@/stores/modules/app.ts'
 const appStore = useAppStoreWithout()
 
@@ -24,20 +24,18 @@ const watchSystemThemeChange = () => {
 const changeTheme = (theme) => {
   // html 的 class
   let themeClassName = ''
-  switch (theme) {
-    case THEME_LIGHT:
-      themeClassName = 'light'
-      break
-    case THEME_DARK:
-      themeClassName = 'dark'
-      break
-    case THEME_SYSTEM:
-      watchSystemThemeChange()
-      themeClassName = matchMedia.matches ? 'dark' : 'light'
-      break
+
+  if (THEME_LIST.includes(theme)) themeClassName = theme
+
+  if (theme === THEME_SYSTEM) {
+    watchSystemThemeChange()
+    themeClassName = matchMedia.matches ? 'dark' : 'light'
   }
+
   // 修改 html 的 class
-  document.querySelector('html').className = themeClassName
+  const htmlEl = document.querySelector('html')
+  htmlEl.className = themeClassName
+  htmlEl.setAttribute('data-theme', themeClassName)
 }
 
 /**

@@ -7,9 +7,10 @@
 
     <!-- 确认 -->
     <button
+      v-if="isShowConfirmBtn"
       id="confirmBtn"
-      onclick="handleConfirm()"
-      class="ui-btn hidden absolute bottom-10 left-1/2 translate-x-[-50%]"
+      @click="handleConfirm"
+      class="ui-btn absolute bottom-28 right-10 px-16 py-4 w-48"
     >
       确认
     </button>
@@ -17,39 +18,57 @@
     <!-- 重新发牌 -->
     <button
       id="confirmBtn"
-      onclick="resetCards()"
-      class="ui-btn absolute bottom-10 right-10 px-16 py-4 rounded-full"
+      @click="resetCardCircle"
+      class="ui-btn absolute bottom-10 right-10 px-16 py-4 w-48"
     >
       重新发牌
     </button>
+
+    <Transition>
+      <SelectedCardPanel ref="selectedCardPanelRef"></SelectedCardPanel>
+    </Transition>
   </div>
 </template>
 
 <script lang="js">
-const totalCards = 78
-const cardWidth = 240
-const cardHeight = 160
-
 let container = null // 用于存储容器元素
 let containerHasClickEvent = false // 是否已经绑定click事件
 let cardsData = [] // 用于存储卡片位置数据
 let selectedCards = [] // 存储已抽取的卡片
-const maxSelectedCards = 3 // 最多允许3张卡片保持抽取状态
-
-const radius = 200 // 圆的半径
-const hoverDistance = 20 // 悬停时移动的距离
-const angleStep = 300 / totalCards // 每个卡片之间的角度间隔 (预留60度，防止卡片重叠)
 </script>
 
 <script setup lang="js">
 import { ref, computed, onMounted } from 'vue'
 
+import SelectedCardPanel from './Components/selectedCard.vue'
+import { uiAlert } from '@/libs'
+
+import {
+  totalCards,
+  cardWidth,
+  cardHeight,
+  maxSelectedCards,
+  radius,
+  hoverDistance,
+  angleStep,
+} from './index'
+
+const isShowConfirmBtn = ref(false)
+
+const selectedCardPanelRef = ref(null)
+
+/** 重置卡牌容器&清除选中 */
+function clearCardsData() {
+  container.innerHTML = null
+  selectedCards = []
+  cardsData = []
+}
+
+/** 绘画卡牌动画 */
 function drawerCardCircle() {
   container = document.querySelector('.tarot-circle__container') // 获取容器元素
   const containerCenterX = container.offsetWidth / 2 // 容器的中心X坐标
   const containerCenterY = container.offsetHeight / 2 // 容器的中心Y坐标
-  // // dev-log >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  console.log(`[Dev_Log][${'container'}_]_>>>`, { containerCenterX, containerCenterY })
 
   // 动态生成卡片
   for (let i = 1; i <= totalCards; i++) {
@@ -81,16 +100,41 @@ function drawerCardCircle() {
     cardsData.push(card)
   }
 
-  // // dev-log >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  console.log(`[Dev_Log][${'cardsData'}_]_>>>`, cardsData)
-
   container.append(...cardsData)
 
   // 使用事件委托在父元素上绑定点击事件
-  handleCardClick()
+  bindCardClickEvent()
 }
 
-function handleCardClick() {
+/** 逆向动画：卡片离开 */
+function resetCardCircle() {
+  // 定义动画结束后的处理函数
+  let lastCard = null
+  const handleAnimationEnd = () => {
+    // 清除之前的cardEl--DOM
+    clearCardsData()
+    // 重新创建卡片
+    drawerCardCircle()
+
+    // 动画完成后移除监听器
+    lastCard.removeEventListener('animationend', handleAnimationEnd)
+  }
+
+  cardsData.forEach((card, index) => {
+    card.style.animation = 'moveToCenter 1s backwards'
+    card.style.animationDelay = `${index * 0.01}s` // 延迟效果，逐个执行
+
+    // 追加动画执行监听器
+    if (index + 1 === cardsData.length) {
+      lastCard = card
+      // 添加动画结束事件监听器
+      card.addEventListener('animationend', handleAnimationEnd)
+    }
+  })
+}
+
+/** 卡牌点击选中事件 */
+function bindCardClickEvent() {
   // 使用事件委托在父元素上绑定点击事件
   if (!containerHasClickEvent) {
     container.addEventListener('click', (event) => {
@@ -127,6 +171,34 @@ function handleCardClick() {
       containerHasClickEvent = true
     })
   }
+}
+
+/** 选中满足条件的确认按钮展示 */
+function showConfirm(flag) {
+  isShowConfirmBtn.value = flag
+}
+
+/** 选中后确认 */
+function handleConfirm() {
+  if (selectedCards.length < maxSelectedCards) {
+    return uiAlert({ type: 'warning', message: '至少抽取三张' })
+  }
+
+  showSelectedCardPanel()
+  clearSelectedCard()
+}
+
+function clearSelectedCard() {
+  selectedCards.map((clickedCard) => {
+    clickedCard.classList.remove('selected')
+  })
+  selectedCards = []
+  showSelectedCardPanel()
+  showConfirm(false)
+}
+
+function showSelectedCardPanel() {
+  selectedCardPanelRef.value.open()
 }
 
 onMounted(() => {
@@ -166,16 +238,12 @@ onMounted(() => {
   animation-delay: calc(0.05s * var(--i)); /* 让每个卡片有不同的延迟 */
 
   /** 颜色渐变 */
-  background-color: whitesmoke;
+  background-color: rgb(255, 255, 255);
   /* filter: hue-rotate(calc(var(--i) * 1deg)); */
 
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease; /* 添加过渡效果 */
-}
-
-.dark .tarot-card {
-  background-color: var(--dark-primary);
 }
 
 /** 鼠标悬停 & 被选中时 效果 */
@@ -215,5 +283,16 @@ onMounted(() => {
     transform: translate(80vw, 0) rotate(0deg); /* 从中心开始 */
     opacity: 0;
   }
+}
+
+/* transiton */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

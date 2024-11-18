@@ -14,6 +14,8 @@
 
 - Vite + Vue3 + Tailwindcss + Daisyui
 
+- 所有icon资源 https://akaricons.com/ （传至iconfont走阿里的CDN）
+
 > **技术栈重构工作**
 > 项目将使用 Vite + Vue3 + Tailwindcss + Daisyui 进行重构
 > 还好现在的内容还不多，，重构工作量不大
