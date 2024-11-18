@@ -9,9 +9,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 export default defineConfig({
   /** 项目根目录 */
   base: './',
-  build: {
-    outDir: 'docs',
-  },
 
   /** 插件 */
   plugins: [
