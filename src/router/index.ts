@@ -23,7 +23,7 @@ const router = createRouter({
         {
           path: '/card/:id',
           name: 'cardDetail',
-          component: () => import('../views/Museum/components/cardDetail.vue'),
+          component: () => import('../views/Museum/Components/cardDetail.vue'),
         },
       ],
     },
