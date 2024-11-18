@@ -13,8 +13,8 @@
           :key="item.prop"
           @click="cur_type = item.prop"
         >
-          {{ index }}
-          <!-- {{ item.label }} ({{ item.amount }}) -->
+          <!-- {{ index }} -->
+          {{ item.label }} ({{ item.amount }})
         </a>
       </div>
 
@@ -28,13 +28,13 @@
             <img
               @click="openCardDetail(key, $event)"
               class="w-[180px] h-[320px] rounded-md"
-              :src=" 'no' || value.cover_url"
+              :src="value.cover_url"
               alt=""
             />
           </div>
-          <!-- <div v-if="cur_type === 'UPPER_ARCANA'" class="font-bold">
+          <div v-if="cur_type === 'UPPER_ARCANA'" class="font-bold">
             {{ value.name }}
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
