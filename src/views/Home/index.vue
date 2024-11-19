@@ -2,7 +2,7 @@
   <div class="home__wrapper w-full h-full p-4 pt-16">
     <div class="w-full h-full flex justify-center items-center">
       <div v-if="introVisible" class="intro__wrapper max-w-screen-xl">
-        <!-- <h1 class="mb-4 text-6xl font-bold">
+        <h1 class="mb-4 text-6xl font-bold">
           神秘之镜：<span
             class="font-bold"
             style="
@@ -22,7 +22,7 @@
         </h1>
         <p class="my-4 text-2xl">
           78张艺术之卡，蕴含古老的智慧与象征，它们不仅是占卜的工具，更是心灵的导航，引领我们在人生旅途中探寻答案，启迪内在的洞见
-        </p> -->
+        </p>
         <!-- <div>
           <h1 class="mb-4 text-6xl font-bold">Test</h1>
           <p class="my-4 text-2xl">
