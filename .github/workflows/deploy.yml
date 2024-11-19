@@ -9,28 +9,36 @@ on:
 # 工作流
 jobs:
   deploy:
+    # 指定运行宿主机环境系统
     runs-on: ubuntu-latest
+    # 工作流步骤
     steps:
+      # 拉取代码到工作区
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 安装Node环境
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # 安装依赖
       - name: Install dependencies
         run: npm install
 
+      # 构建打包
       - name: Build project
         run: npm run build
-      
+
+      # 根目录生成 .nojekyll 文件，向action申明不使用jekyll
       - name: Add .nojekyll to bypass Jekyll on GitHub Pages
         run: echo > ./dist/.nojekyll
 
+      # 将 dist文件 切出到 gh-pages 分支 部署项目
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          # GitHub 自动生成的 GITHUB_TOKEN
+          # GitHub 自动生成的 GITHUB_TOKEN，需要仓库 setting -> action 开放 Workflow permissions [Read and write permissions]
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist

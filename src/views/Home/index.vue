@@ -23,12 +23,12 @@
         <p class="my-4 text-2xl">
           78张艺术之卡，蕴含古老的智慧与象征，它们不仅是占卜的工具，更是心灵的导航，引领我们在人生旅途中探寻答案，启迪内在的洞见
         </p> -->
-        <div>
+        <!-- <div>
           <h1 class="mb-4 text-6xl font-bold">Test</h1>
           <p class="my-4 text-2xl">
             <span>的的的的的的的的的的的的的的的的的</span>
           </p>
-        </div>
+        </div> -->
         <div class="my-4 text-base flex gap-4">
           <button @click="handleShowCard" class="ui-btn">{{ '抽取卡牌' }}</button>
           <button @click="handleShowFireworks" class="ui-btn">🎉🎉🎉</button>
