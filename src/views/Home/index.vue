@@ -1,5 +1,5 @@
 <template>
-  <div class="home__wrapper w-full h-full p-4 pt-16">
+  <div ref="homeRef" class="home__wrapper w-full h-full p-4 pt-16">
     <div class="w-full h-full flex justify-center items-center">
       <div v-if="introVisible" class="intro__wrapper max-w-screen-xl">
         <h1 class="mb-4 text-6xl font-bold">
@@ -36,17 +36,16 @@
       </div>
       <Tarot v-if="TarotVisible"></Tarot>
     </div>
-
-    <!-- <ui-alert :duration="200000">
-      dasalhdksafkakfs
-    </ui-alert> -->
   </div>
 </template>
 
 <script setup lang="js">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import Tarot from '@/views/Tarot/index.vue'
+import Firework from '@/utils/fireworks'
 
+let fireworkInstance
+const homeRef = ref(null)
 
 const introVisible = ref(true)
 const TarotVisible = ref(false)
@@ -56,9 +55,18 @@ function handleShowCard() {
   TarotVisible.value = true
 }
 
-function handleShowFireworks() {}
+function handleShowFireworks() {
+  // 随机位置触发烟花
+  fireworkInstance.create()
+}
 
+onMounted(() => {
+  fireworkInstance = new Firework(homeRef.value)
+})
 
+onUnmounted(() => {
+  fireworkInstance.destroy()
+})
 </script>
 
 <style lang="scss" scoped>

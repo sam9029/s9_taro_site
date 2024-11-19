@@ -6,7 +6,7 @@ const appStore = useAppStoreWithout()
 /**
  * 监听系统主题变更
  */
-let matchMedia
+let matchMedia: any
 const watchSystemThemeChange = () => {
   // 仅需初始化一次即可
   if (matchMedia) return
@@ -21,7 +21,7 @@ const watchSystemThemeChange = () => {
  * 变更主题
  * @param {*} theme 主题的标记常量
  */
-const changeTheme = (theme) => {
+const changeTheme = (theme: string) => {
   // html 的 class
   let themeClassName = ''
 
@@ -33,9 +33,11 @@ const changeTheme = (theme) => {
   }
 
   // 修改 html 的 class
-  const htmlEl = document.querySelector('html')
-  htmlEl.className = themeClassName
-  htmlEl.setAttribute('data-theme', themeClassName)
+  const htmlEl: HTMLElement | null = document.querySelector('html')
+  if (htmlEl) {
+    htmlEl.className = themeClassName
+    htmlEl.setAttribute('data-theme', themeClassName)
+  }
 }
 
 /**

@@ -3,12 +3,12 @@
     class="card-detail__wrapper fixed left-0 top-0 z-20 w-screen h-screen flex justify-center items-center glass"
   >
     <div
-      class="ui-mockup-window border-base-300 border shadow-md w-[80%] h-[80%] md:w-[70%] relative"
+      class="ui-mockup-window border-base-300 border shadow-md w-[80%] h-[90%] md:w-[70%] relative"
     >
       <div class="absolute top-3 right-6 z-30 cursor-pointer rounded-md" @click="goBack">X</div>
       <div
         v-if="props.name"
-        class="border-base-300 flex flex-col sm:flex-row gap-5 justify-center items-center border-t px-4 py-16"
+        class="border-base-300 flex flex-col sm:flex-row gap-5 justify-center items-center border-t px-4 py-12"
       >
         <div>
           <img

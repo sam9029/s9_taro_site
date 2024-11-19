@@ -8,8 +8,8 @@ import App from './App.vue'
 
 /** 物料库 */
 import snLibs from './libs'
-import useTheme from './utils/theme.js'
-import { useREM } from './utils/flexible.js'
+import useTheme from './utils/theme'
+import { useREM } from './utils/flexible'
 
 const app = createApp(App)
 

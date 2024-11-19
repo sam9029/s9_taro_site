@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fireworks</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      /* background-color: black; */
+    }
+    canvas {
+      display: block;
+    }
+    #fireButton {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworksCanvas"></canvas>
+  <button id="fireButton">Launch Fireworks!</button>
+  <div class="box">
+    <div>
+      fashkf;hgkjdkjkgdklfsklkhljdkghkhdkhghkj
+    </div>
+    <button class="fireButton">sas</button>
+  </div>
+  <style>
+    canvas{
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .box{
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+
+  <script>
+    const canvas = document.getElementById("fireworksCanvas");
+    const ctx = canvas.getContext("2d");
+    const fireButton = document.getElementById("fireButton");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    // 定义粒子类
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = Math.random() * 2 + 1;  // 粒子的大小
+        this.speedX = Math.random() * 6 - 3;  // 横向速度
+        this.speedY = Math.random() * 6 - 3;  // 纵向速度
+        this.gravity = 0.05;  // 模拟重力
+        this.opacity = 1;
+        this.fade = Math.random() * 0.03 + 0.01;  // 粒子消失的速度
+      }
+
+      // 更新粒子状态
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.speedY += this.gravity;  // 重力影响速度
+        this.opacity -= this.fade;  // 逐渐透明
+      }
+
+      // 绘制粒子
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    // 生成爆炸效果
+    function explode(x, y) {
+      const colors = ['255, 99, 71', '255, 215, 0', '0, 191, 255', '124, 252, 0'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle(x, y, color));
+      }
+    }
+
+    // 更新和渲染粒子
+    function animate() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((particle, index) => {
+        particle.update();
+        particle.draw();
+
+        // 当粒子完全透明时移除
+        if (particle.opacity <= 0) {
+          particles.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    // 鼠标点击时触发烟花爆炸
+    // canvas.addEventListener("click", (e) => {
+      document.querySelector('body').addEventListener("click", (e) => {
+      explode(e.clientX, e.clientY);
+    });
+
+    // 点击按钮触发烟花
+    fireButton.addEventListener("click", () => {
+      const randomX = Math.random() * canvas.width;
+      const randomY = Math.random() * canvas.height;
+      explode(randomX, randomY);
+    });
+
+    // 开始动画
+    animate();
+  </script>
+</body>
+</html>

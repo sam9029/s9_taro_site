@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fireworks</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        /* background-color: black; */
+      }
+      canvas {
+        display: block;
+      }
+      #fireButton {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #ff6347;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="fireButton">Launch Fireworks!</button>
+    <div class="box">
+      <div>fashkf;hgkjdkjkgdklfsklkhljdkghkhdkhghkj</div>
+      <button class="fireButton">sas</button>
+    </div>
+
+    <script>
+      class Firework {
+        constructor(container) {
+          this.colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C']
+
+          this.canvas = document.createElement('canvas')
+          this.canvas.width = window.innerWidth
+          this.canvas.height = window.innerHeight
+          this.canvas.style = 'position: absolute;top: 0;left: 0;z-index: -1;'
+          this.ctx = this.canvas.getContext('2d')
+
+          this.container = container || document.querySelector('body')
+          this.container.appendChild(this.canvas)
+
+          this.particles = []
+          this.init()
+        }
+
+        init() {
+          this.container.addEventListener('click', (event) =>
+            this.create(event.clientX, event.clientY),
+          )
+          this.animate()
+        }
+
+        create(x, y) {
+          x = x || Math.floor(Math.random() * window.innerWidth)
+          y = y || Math.floor(Math.random() * window.innerHeight)
+
+          const particleCount = 3
+          for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount
+            const speed = Math.random() * 3 + 2
+            this.particles.push({
+              x: x,
+              y: y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              alpha: 1,
+              radius: Math.random() * 3 + 2,
+            })
+          }
+          // new Array(100).fill(undefined).forEach((it) => requestAnimationFrame(this.animate()))
+          this.animate()
+        }
+
+        animate() {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+          this.particles = this.particles.filter((p) => p.alpha > 0)
+
+          this.particles.forEach((particle) => {
+            particle.x += particle.vx
+            particle.y += particle.vy
+            particle.alpha -= 0.01
+
+            this.ctx.beginPath()
+            this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2, false)
+            this.ctx.fillStyle = `rgba(255, 165, 0, ${particle.alpha})`
+            this.ctx.fill()
+          })
+          // // dev-log >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+          console.log(`[Dev_Log][${new Date().getTime() + ' particle'}_]_>>>`, this.particles)
+          // this.particles = []
+
+          // requestAnimationFrame(() => this.animate())
+        }
+
+        // Clean up canvas when not needed
+        destroy() {
+          this.container.removeChild(this.canvas)
+        }
+      }
+
+      new Firework(document.querySelector('body'))
+    </script>
+  </body>
+</html>

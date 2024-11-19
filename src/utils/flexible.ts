@@ -8,9 +8,7 @@ import { computed } from 'vue'
  */
 export const isMobileTerminal = computed(() => {
   // 方式1：
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  )
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 })
 
 /**
@@ -23,12 +21,12 @@ export const useREM = () => {
   // 监听 html 文档被解析完成的事件
   document.addEventListener('DOMContentLoaded', () => {
     // 获取 html 标签
-    const html = document.querySelector('html')
+    const html: HTMLElement | null = document.querySelector('html')
     // 获取根元素 fontSize 标准，屏幕宽度 / 10。（以 Iphone 为例 Iphone 6 屏幕宽度为 375，则标准 fontSize 为 37.5）
     let fontSize = window.innerWidth / 10
     // 获取到的 fontSize 不允许超过我们定义的最大值
     fontSize = fontSize > MAX_FONT_SIZE ? MAX_FONT_SIZE : fontSize
     // 定义根元素（html）fontSize 的大小 （rem）
-    html.style.fontSize = fontSize + 'px'
+    html && (html.style.fontSize = fontSize + 'px')
   })
 }

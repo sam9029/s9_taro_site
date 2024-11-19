@@ -1,5 +1,6 @@
 <template>
   <div class="layout__wrapper w-screen h-screen overflow-hidden">
+    <Mask></Mask>
     <Nav></Nav>
     <Float></Float>
     <RouterView v-slot="{ Component }">
@@ -13,21 +14,13 @@
 </template>
 
 <script setup lang="js">
+import Mask from './Mask/index.vue'
 import Nav from './Nav/index.vue'
 import Float from './Float/index.vue'
 </script>
 
 <style lang="scss" scoped>
 .layout__wrapper {
-  background-image: repeating-linear-gradient(
-    45deg,
-    var(--fallback-b1, oklch(var(--b1))),
-    var(--fallback-b1, oklch(var(--b1))) 13px,
-    var(--fallback-b2, oklch(var(--b2))) 13px,
-    var(--fallback-b2, oklch(var(--b2))) 14px
-  );
-  background-size: 40px 40px;
-
   // layout页面时：新页面的进入动画
   .layout-enter-active {
     animation-name: layout-in;
