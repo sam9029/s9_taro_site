@@ -2,8 +2,9 @@
 
 ## 网站地址
 
-仓库地址：https://github.com/sam9029/s9_taro_site
+线上地址：https://tarot.sam9029.asia
 
+仓库地址：https://github.com/sam9029/s9_taro_site
 网站地址：https://sam9029.github.io/s9_taro_site/
 
 ## 网站介绍
