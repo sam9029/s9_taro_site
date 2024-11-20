@@ -1,6 +1,6 @@
 # 第一阶段：构建阶段
-# node:16-alpine 表示这是一个运行 Node.js 16 版本的轻量级 Alpine Linux 镜像。Alpine版 体积小、性能高效
-FROM node:16-alpine AS build-stage
+# node:20-alpine 表示这是一个运行 Node.js 20 版本的轻量级 Alpine Linux 镜像。Alpine版 体积小、性能高效
+FROM node:20-alpine AS build-stage
 
 LABEL MAINTAINER="sam9029"
 
