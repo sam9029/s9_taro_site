@@ -11,11 +11,11 @@
             style="
               background-image: linear-gradient(
                 90deg,
-                oklch(var(--s)) 4%,
-                color-mix(in oklch, oklch(var(--s)), oklch(var(--er))) 22%,
-                oklch(var(--p)) 45%,
-                color-mix(in oklch, oklch(var(--p)), oklch(var(--a))) 67%,
-                oklch(var(--a)) 100.2%
+                hsl(var(--s)) 4%,
+                color-mix(in oklch, hsl(var(--sf)), hsl(var(--pf))) 22%,
+                hsl(var(--p)) 45%,
+                color-mix(in oklch, hsl(var(--p)), hsl(var(--a))) 67%,
+                hsl(var(--a)) 100.2%
               );
               -webkit-text-fill-color: transparent;
               background-clip: text;
