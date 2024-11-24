@@ -39,9 +39,9 @@ export function randomReadTaroCard() {
   }
 }
 
-export function handleExtractCard() {
+export function handleExtractCard(selectedCardNum = maxSelectedCards) {
   const selectedCard = []
-  new Array(maxSelectedCards).fill(undefined).map((item) => {
+  new Array(selectedCardNum).fill(undefined).map((item) => {
     let card = randomReadTaroCard()
     selectedCard.push(card)
   })

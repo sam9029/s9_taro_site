@@ -1,7 +1,7 @@
 <template>
   <!-- 头部 -->
   <div
-    class="ui-navbar max-w-screen-xl w-[88%] fixed top-4 left-0 right-0 m-auto z-layer1 shadow-xl rounded-xl"
+    class="ui-navbar max-w-screen-xl w-[88%] fixed top-4 left-0 right-0 m-auto z-layer1 shadow-2xl rounded-xl"
   >
     <div class="flex-1">
       <!-- <a class="ui-btn ui-btn-ghost text-xl">Tarot</a> -->

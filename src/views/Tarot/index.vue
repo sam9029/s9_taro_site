@@ -5,24 +5,32 @@
       <!-- 卡片将通过 JavaScript 动态生成 -->
     </div>
 
-    <!-- 确认 -->
-    <button
-      v-if="isShowConfirmBtn"
-      id="confirmBtn"
-      @click="handleConfirm"
-      class="ui-btn absolute bottom-28 right-10 px-16 py-4 w-48"
+    <div
+      class="tool__wrapper absolute bottom-1/2 right-1/2 translate-x-[50%] translate-y-[50%] md:bottom-10 md:right-10 md:translate-x-[0%] md:translate-y-[0%] flex flex-col"
     >
-      确认
-    </button>
+      <div v-if="props.selectedCardNum" class="text-sm text-zinc-600/60 mb-4 text-right">
+        限定抽取 {{ props.selectedCardNum }} 张
+      </div>
 
-    <!-- 重新发牌 -->
-    <button
-      id="confirmBtn"
-      @click="resetCardCircle"
-      class="ui-btn absolute bottom-10 right-10 px-16 py-4 w-48"
-    >
-      重新发牌
-    </button>
+      <!-- 确认 -->
+      <button
+        v-if="isShowConfirmBtn"
+        id="confirmBtn"
+        @click="handleConfirm"
+        class="ui-btn py-4 px-4 md:px-16 w-24 md:w-48 mb-4 shadow-md"
+      >
+        确认
+      </button>
+
+      <!-- 重新发牌 -->
+      <button
+        id="confirmBtn"
+        @click="resetCardCircle"
+        class="ui-btn py-4 px-4 md:px-16 w-24 md:w-48 shadow-md"
+      >
+        重新发牌
+      </button>
+    </div>
 
     <Transition>
       <SelectedCardPanel ref="selectedCardPanelRef"></SelectedCardPanel>
@@ -34,7 +42,6 @@
 let container = null // 用于存储容器元素
 let containerHasClickEvent = false // 是否已经绑定click事件
 let cardsData = [] // 用于存储卡片位置数据
-let selectedCards = [] // 存储已抽取的卡片
 </script>
 
 <script setup lang="js">
@@ -47,20 +54,43 @@ import {
   totalCards,
   cardWidth,
   cardHeight,
-  maxSelectedCards,
+  maxSelectedCards as defaultMaxSelectedCards,
   radius,
   hoverDistance,
   angleStep,
 } from './index'
 
-const isShowConfirmBtn = ref(false)
+const props = defineProps({
+  selectedCardNum: {
+    type: [Number, null],
+    default: null,
+  },
+})
 
+let selectedCards = ref([]) // 存储已抽取的卡片
 const selectedCardPanelRef = ref(null)
+
+const isShowConfirmBtn = computed(() => {
+  // 随机抽取
+  if (!props.selectedCardNum) return true
+
+  // 限定模式抽取数量等于已抽取数量
+  if (props.selectedCardNum === selectedCards.value.length) {
+    return true
+  }
+
+  return false
+})
+
+const maxSelectedCards = computed(() => {
+  if (props.selectedCardNum) return props.selectedCardNum
+  return 78
+})
 
 /** 重置卡牌容器&清除选中 */
 function clearCardsData() {
   container.innerHTML = null
-  selectedCards = []
+  selectedCards.value = []
   cardsData = []
 }
 
@@ -148,21 +178,21 @@ function bindCardClickEvent() {
         // 如果该卡片已经抽取，恢复原位
         if (clickedCard.classList.contains('selected')) {
           clickedCard.classList.remove('selected')
-          selectedCards = selectedCards.filter((c) => c !== clickedCard) // 从已选卡片中移除
+          selectedCards.value = selectedCards.value.filter((c) => c !== clickedCard) // 从已选卡片中移除
         } else {
           // 如果尚未抽取且已有三张卡片，移除最早的一张
-          if (selectedCards.length === maxSelectedCards) {
-            const cardToReset = selectedCards.shift() // 移除数组中最早的卡片
+          if (selectedCards.value.length === maxSelectedCards.value) {
+            const cardToReset = selectedCards.value.shift() // 移除数组中最早的卡片
             cardToReset.classList.remove('selected')
           }
 
           // 抽取当前卡片
           clickedCard.classList.add('selected')
-          selectedCards.push(clickedCard) // 添加到已选卡片数组
+          selectedCards.value.push(clickedCard) // 添加到已选卡片数组
         }
       }
 
-      if (selectedCards.length == maxSelectedCards) {
+      if (selectedCards.value.length == maxSelectedCards.value) {
         showConfirm(true)
       } else {
         showConfirm(false)
@@ -180,25 +210,27 @@ function showConfirm(flag) {
 
 /** 选中后确认 */
 function handleConfirm() {
-  if (selectedCards.length < maxSelectedCards) {
-    return uiAlert({ type: 'warning', message: '至少抽取三张' })
+  const num = props.selectedCardNum
+  if (num) {
+    if (selectedCards.value.length < num) {
+      return uiAlert({ type: 'warning', message: `至少抽取${num}}张` })
+    }
   }
 
-  showSelectedCardPanel()
+  showSelectedCardPanel(props.selectedCardNum || selectedCards.value.length)
   clearSelectedCard()
 }
 
 function clearSelectedCard() {
-  selectedCards.map((clickedCard) => {
+  selectedCards.value.map((clickedCard) => {
     clickedCard.classList.remove('selected')
   })
-  selectedCards = []
-  showSelectedCardPanel()
   showConfirm(false)
+  selectedCards.value = []
 }
 
-function showSelectedCardPanel() {
-  selectedCardPanelRef.value.open()
+function showSelectedCardPanel(_num) {
+  selectedCardPanelRef.value.open(_num)
 }
 
 onMounted(() => {

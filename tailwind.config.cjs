@@ -11,8 +11,8 @@ export default {
         // xl: ['0.65rem', '0.75rem'],
       },
       colors: {
-        primary: '#041b47',
-        'dark-primary': '#f2ddcc',
+        // primary: '#041b47',
+        // 'dark-primary': '#f2ddcc',
       },
       zIndex: {
         lowest: -1,
@@ -20,7 +20,7 @@ export default {
         layer1: 10,
         layer2: 20,
         layer3: 30,
-        topest: 99,
+        topest: 9999,
       },
     },
   },
@@ -30,11 +30,11 @@ export default {
   daisyui: {
     prefix: 'ui-', // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
     themes: ['light', 'dark', 'valentine', 'cupcake', 'winter', 'lemonade'], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    logs: false, // Shows info about daisyUI version and used config in the console when building your CSS
     // darkTheme: "dark", // name of one of the included themes for dark mode
     // base: true, // applies background color and foreground color for root element by default
     // styled: true, // include daisyUI colors and design decisions for all components
     // utils: true, // adds responsive and modifier utility classes
-    // logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
     // themeRoot: ":root", // The element that receives theme color CSS variables
   },
 }

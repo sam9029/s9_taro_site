@@ -1,8 +1,11 @@
 <template>
-  <div ref="homeRef" class="home__wrapper w-full h-full p-4 pt-16">
+  <div
+    ref="homeRef"
+    class="home__wrapper w-full h-full overflow-x-hidden overflow-y-auto p-4 pt-32 md:pt-24 relative"
+  >
     <div class="w-full h-full flex justify-center items-center">
-      <div v-if="introVisible" class="intro__wrapper max-w-screen-xl">
-        <h1 class="mb-4 text-6xl font-bold">
+      <div v-if="introVisible" class="intro__wrapper max-w-[88%]">
+        <h1 class="mb-4 text-5xl md:text-6xl font-bold">
           神秘之镜：<span
             class="font-bold"
             style="
@@ -17,10 +20,10 @@
               -webkit-text-fill-color: transparent;
               background-clip: text;
             "
-            >{{ 'Tarot' || '塔罗牌'}}</span
+            >{{ 'Tarot' || '塔罗牌' }}</span
           >
         </h1>
-        <p class="my-4 text-2xl">
+        <p class="my-4 text-xl md:text-2xl">
           78张艺术之卡，蕴含古老的智慧与象征，它们不仅是占卜的工具，更是心灵的导航，引领我们在人生旅途中探寻答案，启迪内在的洞见
         </p>
         <!-- <div>
@@ -29,12 +32,43 @@
             <span>的的的的的的的的的的的的的的的的的</span>
           </p>
         </div> -->
-        <div class="my-4 text-base flex gap-4">
-          <button @click="handleShowCard" class="ui-btn">{{ '抽取卡牌' }}</button>
+        <div class="my-4 text-base max-w-60 flex gap-4 flex-col md:flex-row">
+          <button @click="toggleTarotExtract()" class="ui-btn ui-glass">{{ '随机抽取' }}</button>
+          <button @click="openSelectNumInputDialog()" class="ui-btn ui-btn-primary">
+            {{ '限定抽取' }}
+          </button>
+          <button class="ui-btn ui-btn-primary ui-btn-disabled cursor-not-allowed">
+            {{ '牌阵模式' }}
+          </button>
+          <button class="ui-btn ui-btn-outline ui-btn-secondary ui-btn-disabled cursor-not-allowed">
+            {{ '专家模式' }}
+          </button>
           <button @click="handleShowFireworks" class="ui-btn">🎉🎉🎉</button>
         </div>
       </div>
-      <Tarot v-if="TarotVisible"></Tarot>
+      <ui-dialog
+        ref="selectNumInputDialogRef"
+        @close="resetSelectedCardNum"
+        @confirm="toggleTarotExtract"
+      >
+        <label class="ui-form-control w-full max-w-xs">
+          <div class="ui-label">
+            <span class="ui-label-text">输入限定抽取卡牌数量</span>
+          </div>
+          <div class="flex">
+            <button class="ui-btn mr-2 w-12" @click="handleSubtractSelectedCardNum">-</button>
+            <input
+              v-model="selectedCardNum"
+              @input="validSelectedCardNumInput"
+              type="number"
+              placeholder="输入限定抽取卡牌数量"
+              class="ui-input ui-input-bordered w-full max-w-xs"
+            />
+            <button class="ui-btn ml-2 w-12" @click="handlePlusSelectedCardNum">+</button>
+          </div>
+        </label>
+      </ui-dialog>
+      <Tarot v-if="TarotVisible" :selectedCardNum="selectedCardNum"></Tarot>
     </div>
   </div>
 </template>
@@ -42,22 +76,60 @@
 <script setup lang="js">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import Tarot from '@/views/Tarot/index.vue'
+
 import Firework from '@/utils/fireworks'
+import { uiAlert } from '@/libs'
 
 let fireworkInstance
 const homeRef = ref(null)
 
 const introVisible = ref(true)
 const TarotVisible = ref(false)
-
-function handleShowCard() {
-  introVisible.value = false
-  TarotVisible.value = true
-}
+const selectedCardNum = ref(null)
+const selectNumInputDialogRef = ref(null)
 
 function handleShowFireworks() {
   // 随机位置触发烟花
   fireworkInstance.create()
+}
+
+function toggleTarotExtract() {
+  introVisible.value = !introVisible.value
+  TarotVisible.value = !TarotVisible.value
+}
+
+function openSelectNumInputDialog() {
+  selectedCardNum.value = 1
+  selectNumInputDialogRef.value?.open()
+}
+
+function resetSelectedCardNum() {
+  selectedCardNum.value = null
+}
+
+function validSelectedCardNumInput(e) {
+  const value = e.target.value
+  if (value < 1) {
+    selectedCardNum.value = 1
+  } else if (value > 78) {
+    selectedCardNum.value = 78
+  }
+}
+
+function handleSubtractSelectedCardNum() {
+  if (selectedCardNum.value > 1) {
+    selectedCardNum.value--
+  } else {
+    uiAlert({ type: 'warning', message: '至少选1张卡牌' })
+  }
+}
+
+function handlePlusSelectedCardNum() {
+  if (selectedCardNum.value < 78) {
+    selectedCardNum.value++
+  } else {
+    uiAlert({ type: 'warning', message: '至多选择78张卡牌' })
+  }
 }
 
 onMounted(() => {
