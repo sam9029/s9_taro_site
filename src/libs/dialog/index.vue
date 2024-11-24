@@ -25,6 +25,8 @@
 <script setup lang="js">
 import { ref, computed, onMounted, nextTick } from 'vue'
 
+import { getRandomString } from '@/utils/randomString'
+
 const EMITS_OPEN = 'open'
 const EMITS_CLOSE = 'close'
 const EMITS_CONFIRM = 'confirm'
@@ -35,7 +37,7 @@ const dialog_id = ref('default')
 const visiable = ref(false)
 
 function init() {
-  const id = 'modal_' + window.crypto.randomUUID().split('-')[0]
+  const id = 'modal_' + getRandomString(16)
   dialog_id.value = id
 }
 
