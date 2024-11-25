@@ -6,22 +6,7 @@
     <div class="w-full h-full flex justify-center items-center">
       <div v-if="introVisible" class="intro__wrapper max-w-[88%]">
         <h1 class="mb-4 text-5xl md:text-6xl font-bold">
-          神秘之镜：<span
-            class="font-bold"
-            style="
-              background-image: linear-gradient(
-                90deg,
-                hsl(var(--s)) 4%,
-                color-mix(in oklch, hsl(var(--sf)), hsl(var(--pf))) 22%,
-                hsl(var(--p)) 45%,
-                color-mix(in oklch, hsl(var(--p)), hsl(var(--a))) 67%,
-                hsl(var(--a)) 100.2%
-              );
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-            "
-            >{{ 'Tarot' || '塔罗牌' }}</span
-          >
+          神秘之镜：<span class="font-bold tarot-text">{{ 'Tarot' || '塔罗牌' }}</span>
         </h1>
         <p class="my-4 text-xl md:text-2xl">
           78张艺术之卡，蕴含古老的智慧与象征，它们不仅是占卜的工具，更是心灵的导航，引领我们在人生旅途中探寻答案，启迪内在的洞见
@@ -143,5 +128,22 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .home__wrapper {
+  .tarot-text {
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--s)) 4%,
+      hsl(var(--sf)) 22%,
+      hsl(var(--p)) 45%,
+      hsl(var(--a)) 67%,
+      hsl(var(--a)) 100.2%
+    );
+    /* 设置背景剪裁为文字 */
+    -webkit-background-clip: text; /* 对旧版 WebKit 浏览器的兼容 */
+    background-clip: text;
+
+    /* 使文本颜色透明，这样背景就能透过文字显示 */
+    -webkit-text-fill-color: transparent; /* 对旧版 WebKit 浏览器的兼容 */
+    text-fill-color: transparent;
+  }
 }
 </style>
