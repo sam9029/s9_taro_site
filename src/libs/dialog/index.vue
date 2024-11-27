@@ -1,8 +1,8 @@
 <template>
   <!--  -->
   <Teleport to="body">
-    <dialog v-if="visiable" :id="dialog_id" class="ui-modal">
-      <div class="ui-modal-box">
+    <dialog v-if="visiable" :id="dialog_id" class="ui-modal" >
+      <div class="ui-modal-box" :class="className">
         <div>
           <slot name="header"></slot>
         </div>
@@ -32,6 +32,13 @@ const EMITS_CLOSE = 'close'
 const EMITS_CONFIRM = 'confirm'
 const emits = defineEmits([EMITS_OPEN, EMITS_CLOSE, EMITS_CONFIRM])
 
+const props = defineProps({
+  className: {
+    type: String,
+    default: null,
+  },
+})
+
 // 生成dialog_id 供 dasiy 的 dialog 使用（其根据dialog_id来控制隐现）
 const dialog_id = ref('default')
 const visiable = ref(false)
@@ -49,17 +56,18 @@ function open(_num) {
   emits(EMITS_OPEN)
 }
 
-function close(type = EMITS_CLOSE) {
+// flag标识：非close直接的触发事件（如提交手动触发时），无须触发EMITS_CLOSE的自定义事件回调，
+function close(flag = true) {
   visiable.value = false
   window[dialog_id.value].close()
-  if (type != EMITS_CONFIRM) {
+  if (flag) {
     emits(EMITS_CLOSE)
   }
 }
 
 function confirm() {
   emits(EMITS_CONFIRM)
-  close(EMITS_CONFIRM)
+  close(false)
 }
 
 init()

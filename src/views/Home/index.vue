@@ -18,8 +18,8 @@
           </p>
         </div> -->
         <div class="my-4 text-base max-w-60 flex gap-4 flex-col md:flex-row">
-          <button @click="toggleTarotExtract()" class="ui-btn ui-glass">{{ '随机抽取' }}</button>
-          <button @click="openSelectNumInputDialog()" class="ui-btn ui-btn-primary">
+          <button @click="toggleTarotExtract" class="ui-btn ui-glass">{{ '随机抽取' }}</button>
+          <button @click="openSelectNumInputDialog" class="ui-btn ui-btn-primary">
             {{ '限定抽取' }}
           </button>
           <button class="ui-btn ui-btn-primary ui-btn-disabled cursor-not-allowed">
@@ -33,14 +33,15 @@
       </div>
       <ui-dialog
         ref="selectNumInputDialogRef"
+        className="max-w-96"
         @close="resetSelectedCardNum"
         @confirm="toggleTarotExtract"
       >
-        <label class="ui-form-control w-full max-w-xs">
+        <div class="flex flex-col">
           <div class="ui-label">
             <span class="ui-label-text">输入限定抽取卡牌数量</span>
           </div>
-          <div class="flex">
+          <div class="flex justify-between">
             <button class="ui-btn mr-2 w-12" @click="handleSubtractSelectedCardNum">-</button>
             <input
               v-model="selectedCardNum"
@@ -51,7 +52,20 @@
             />
             <button class="ui-btn ml-2 w-12" @click="handlePlusSelectedCardNum">+</button>
           </div>
-        </label>
+          <div class="ui-label">
+            <span class="ui-label-text text-zinc-900/50">快捷选择</span>
+          </div>
+          <div class="mt-2 flex gap-2 justify-between">
+            <button
+              class="ui-btn flex-1"
+              v-for="item in quickSelectOptions"
+              :key="item"
+              @click="handleQuickSelectedCardNum(item)"
+            >
+              {{ item }}
+            </button>
+          </div>
+        </div>
       </ui-dialog>
       <Tarot v-if="TarotVisible" :selectedCardNum="selectedCardNum"></Tarot>
     </div>
@@ -67,6 +81,8 @@ import { uiAlert } from '@/libs'
 
 let fireworkInstance
 const homeRef = ref(null)
+
+const quickSelectOptions = [1, 3, 6]
 
 const introVisible = ref(true)
 const TarotVisible = ref(false)
@@ -115,6 +131,12 @@ function handlePlusSelectedCardNum() {
   } else {
     uiAlert({ type: 'warning', message: '至多选择78张卡牌' })
   }
+}
+
+function handleQuickSelectedCardNum(value){
+  selectedCardNum.value = value
+  toggleTarotExtract()
+  selectNumInputDialogRef.value.close(false)
 }
 
 onMounted(() => {

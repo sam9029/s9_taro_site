@@ -34,6 +34,8 @@
 
 - https://ibb.co/album/jgGtPd
 
+其他图床方案：最全的图床集合（国内外，站长必备）-木头分享 https://flowus.cn/boxker/share/fb583111-bb3a-42ff-aef6-71d820d8bd8c
+
 ## 服务器部署
 
 - 🆗 自有服务器部署
@@ -59,6 +61,7 @@
 - 🆗 Nignx 转发端口 traotai.sam9029.asia
 - 🆗（随机模式）不限数量卡牌抽取
 - 🆗（限定模式）自定义数量卡牌抽取
+- 🆗（限定模式）快捷选中数量抽取
 - 📕 接入AI分析
 - 📕（专家模式）预设问题
 
@@ -79,7 +82,8 @@
     解决方案：https://github.com/saadeghi/daisyui/issues/2693
     降级 dasiyui 到v3 版本 https://v3.daisyui.com
 - 📕 移动端图片无法加载
-    （可能式http无法加载 https 图片，需要授权加载；目前的解决方案是博物馆直接点击图片，就好了）
+    （可能式http无法加载 https 图片，需要授权加载；~~目前的解决方案是博物馆直接点击图片，就好了~~）
+    解决方案：不排查了问题，直接换图床
 - 随机模式下选中卡牌可能出现重复的情况
 
 
