@@ -32,7 +32,8 @@
 
 ### 图片 CDN 地址：
 
-- https://ibb.co/album/jgGtPd
+- https://img.tg/album/tarot.OKRJ1
+- ~~（弃用）https://ibb.co/album/jgGtPd~~
 
 其他图床方案：最全的图床集合（国内外，站长必备）-木头分享 https://flowus.cn/boxker/share/fb583111-bb3a-42ff-aef6-71d820d8bd8c
 
