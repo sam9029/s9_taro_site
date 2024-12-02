@@ -8,9 +8,12 @@
     </div>
     <div class="flex-none gap-2">
       <div class="ui-dropdown ui-dropdown-end">
-        <button tabindex="0" role="button" class="ui-btn ui-btn-sm">主题</button>
+        <button tabindex="0" id="theme_toggle_btn" role="button" class="ui-btn ui-btn-sm">
+          主题
+        </button>
         <ul
           tabindex="0"
+          id="theme_menu"
           class="ui-menu ui-menu-sm ui-dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 p-2 shadow-2xl"
         >
           <li class="w-full grid-cols-1" v-for="theme in THEME_LIST" :key="theme">
@@ -26,6 +29,7 @@
             <!-- 渲染主题 -->
             <template v-else>
               <button
+                :id="theme + '_btn'"
                 class="w-full block outline-base-content text-start outline-offset-4"
                 :data-set-theme="theme"
                 @click="toggleTheme(theme)"
@@ -72,7 +76,7 @@ function toggleTheme(_theme) {
   background-size: 3px 3px;
   backdrop-filter: saturate(100%) blur(50px);
 }
-.ui-navbar{
+.ui-navbar {
   min-height: unset;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="tarot__wrapper w-full h-full relative">
     <!-- 卡牌渲染 -->
-    <div ref="containerRef" class="tarot-circle__container">
+    <div ref="containerRef" id="tarot_circle_container" class="tarot-circle__container">
       <!-- 卡片将通过 JavaScript 动态生成 -->
     </div>
 
@@ -24,7 +24,7 @@
 
       <!-- 重新发牌 -->
       <button
-        id="confirmBtn"
+        id="resetCardBtn"
         @click="resetCardCircle"
         class="ui-btn py-4 px-4 md:px-16 w-24 md:w-48 shadow-md"
       >
@@ -103,6 +103,7 @@ function drawerCardCircle() {
   // 动态生成卡片
   for (let i = 1; i <= totalCards; i++) {
     const card = document.createElement('div')
+    card.id = `tarot_card_${i}`
     card.classList.add('tarot-card')
     card.innerHTML = `<div class='tarot-card-back'></div>`
 

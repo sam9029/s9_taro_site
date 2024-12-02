@@ -18,8 +18,8 @@
           </p>
         </div> -->
         <div class="my-4 text-base max-w-60 flex gap-4 flex-col md:flex-row">
-          <button @click="toggleTarotExtract" class="ui-btn ui-glass">{{ '随机抽取' }}</button>
-          <button @click="openSelectNumInputDialog" class="ui-btn ui-btn-primary">
+          <button id="random_method_btn" @click="toggleTarotExtract" class="ui-btn ui-glass">{{ '随机抽取' }}</button>
+          <button id="limit_method_btn" @click="openSelectNumInputDialog" class="ui-btn ui-btn-primary">
             {{ '限定抽取' }}
           </button>
           <button class="ui-btn ui-btn-primary ui-btn-disabled cursor-not-allowed">
