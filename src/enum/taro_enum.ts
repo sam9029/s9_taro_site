@@ -310,88 +310,88 @@ export const SWORDS_MAPPER = {
   },
 }
 
-/** 小阿卡那 - 钱币  - 14张 */
+/** 小阿卡那 - 星币  - 14张 */
 export const PENTACLES_MAPPER = {
   ace_of_pentacles: {
-    name: '钱币一',
+    name: '星币一',
     description: '象征物质的成功，代表新的财务机会与丰收。',
     reversed_description: '象征失去机会，财务困难或浪费资源。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLUaRS.jpg',
   },
   two_of_pentacles: {
-    name: '钱币二',
+    name: '星币二',
     description: '象征平衡与灵活，代表在变化中的适应与管理。',
     reversed_description: '象征失衡，难以应对多重责任。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLT9RF.jpg',
   },
   three_of_pentacles: {
-    name: '钱币三',
+    name: '星币三',
     description: '象征合作与技能，代表团队合作与专业能力的展示。',
     reversed_description: '象征合作不顺或缺乏专业技能。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTXdl.jpg',
   },
   four_of_pentacles: {
-    name: '钱币四',
+    name: '星币四',
     description: '象征控制与保守，代表财务上的谨慎与固守。',
     reversed_description: '象征过度保守或对财富的执着。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTCEs.jpg',
   },
   five_of_pentacles: {
-    name: '钱币五',
+    name: '星币五',
     description: '象征贫困与失落，代表物质上的匮乏与困境。',
     reversed_description: '象征摆脱困境，恢复财务上的稳定。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLUOha.jpg',
   },
   six_of_pentacles: {
-    name: '钱币六',
+    name: '星币六',
     description: '象征给予与接收，代表慷慨与分享财富。',
     reversed_description: '象征不公平的给予，或付出得不到回报。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTYuI.jpg',
   },
   seven_of_pentacles: {
-    name: '钱币七',
+    name: '星币七',
     description: '象征耐心与评估，代表长时间努力后的等待与回报。',
     reversed_description: '象征缺乏耐心，急于求成或对回报不满。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLT6UP.jpg',
   },
   eight_of_pentacles: {
-    name: '钱币八',
+    name: '星币八',
     description: '象征勤奋与专注，代表对技能与工作的精进。',
     reversed_description: '象征缺乏专注，工作进展不顺或敷衍了事。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTlFD.jpg',
   },
   nine_of_pentacles: {
-    name: '钱币九',
+    name: '星币九',
     description: '象征独立与财富，代表物质上的享受与成就感。',
     reversed_description: '象征过度奢侈或不满足于物质成就。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTVE1.jpg',
   },
   ten_of_pentacles: {
-    name: '钱币十',
+    name: '星币十',
     description: '象征财富与传承，代表家庭的繁荣与物质上的安全感。',
     reversed_description: '象征家庭矛盾或财富传承中的困难。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTIag.jpg',
   },
   page_of_pentacles: {
-    name: '钱币侍从',
+    name: '星币侍从',
     description: '象征学习与潜力，代表物质世界中的新机会与成长。',
     reversed_description: '象征缺乏专注或对成长机会的忽视。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLT3eB.jpg',
   },
   knight_of_pentacles: {
-    name: '钱币骑士',
+    name: '星币骑士',
     description: '象征勤奋与责任，代表稳定、专注与务实的行动。',
     reversed_description: '象征固执或缺乏灵活性，工作停滞不前。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLT8yb.jpg',
   },
   queen_of_pentacles: {
-    name: '钱币王后',
+    name: '星币王后',
     description: '象征母性与关怀，代表物质世界中的照顾与稳定。',
     reversed_description: '象征过度自我牺牲或缺乏物质安全感。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTwIK.jpg',
   },
   king_of_pentacles: {
-    name: '钱币国王',
+    name: '星币国王',
     description: '象征财富与成就，代表物质上的成功与稳固的基础。',
     reversed_description: '象征过度物质化，或滥用财富与权力。',
     cover_url: 'https://ooo.0x0.ooo/2024/11/30/OLTj96.jpg',
@@ -500,7 +500,7 @@ export const TARO_TYPE_OPTIONS = [
   { prop: 'UPPER_ARCANA', label: '大阿尔卡那', amount: '22' },
   { prop: 'CUPS', label: '圣杯', amount: '14' },
   { prop: 'SWORDS', label: '宝剑', amount: '14' },
-  { prop: 'PENTACLES', label: '钱币', amount: '14' },
+  { prop: 'PENTACLES', label: '星币', amount: '14' },
   { prop: 'WANDS', label: '权杖', amount: '14' },
 ]
 

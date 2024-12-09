@@ -10,10 +10,16 @@
         </KeepAlive>
       </Transition>
     </RouterView>
+
+    <!-- 音乐播放器 -->
+     <!-- <div class="opacity-0"> -->
+       <meting-js class=".metingjs" server="netease" type="song" id="510953935" listFolded="true" fixed="true" mini="true"> </meting-js>
+     <!-- </div> -->
   </div>
 </template>
 
 <script setup lang="js">
+// import { nextTick } from 'vue'
 import Mask from './Mask/index.vue'
 import Nav from './Nav/index.vue'
 import Float from './Float/index.vue'

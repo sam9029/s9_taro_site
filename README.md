@@ -17,6 +17,9 @@
 
 - 所有icon资源 https://akaricons.com/ （传至iconfont走阿里的CDN）
 
+- [Aplayerjs](https://aplayer.js.org/#/zh-Hans/) + [meting-js](https://github.com/metowolf/MetingJS) 音乐播放器
+    - 直接走网易的服务CDN音乐资源
+
 > 待调研 ant-design-x AI对话UI库
 
 > **🆗技术栈重构工作**
