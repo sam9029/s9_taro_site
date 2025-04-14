@@ -2,7 +2,7 @@
 
 ## 网站地址
 
-线上地址：https://tarot.sam9029.asia
+线上地址：https://tarot.sam9029.site
 
 仓库地址：https://github.com/sam9029/s9_taro_site
 网站地址：https://sam9029.github.io/s9_taro_site/
@@ -62,7 +62,7 @@
 - 🆗（Break Change）使用Vue3框架重新编写代码
 - 🆗 home 和 museum 的切换动画
 - 🆗 卡片博物馆
-- 🆗 Nignx 转发端口 traotai.sam9029.asia
+- 🆗 Nignx 转发端口 traotai.sam9029.site
 - 🆗（随机模式）不限数量卡牌抽取
 - 🆗（限定模式）自定义数量卡牌抽取
 - 🆗（限定模式）快捷选中数量抽取
